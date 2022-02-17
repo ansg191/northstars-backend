@@ -6,6 +6,7 @@ package twilio
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	math "math"
 )
 
@@ -42,9 +43,8 @@ func NewTwilioEndpoints() []*api.Endpoint {
 // Client API for Twilio service
 
 type TwilioService interface {
-	Call(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
-	Stream(ctx context.Context, in *StreamingRequest, opts ...client.CallOption) (Twilio_StreamService, error)
-	PingPong(ctx context.Context, opts ...client.CallOption) (Twilio_PingPongService, error)
+	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...client.CallOption) (*SendMessageResponse, error)
+	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...client.CallOption) (*GetMessageResponse, error)
 }
 
 type twilioService struct {
@@ -59,9 +59,9 @@ func NewTwilioService(name string, c client.Client) TwilioService {
 	}
 }
 
-func (c *twilioService) Call(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.name, "Twilio.Call", in)
-	out := new(Response)
+func (c *twilioService) SendMessage(ctx context.Context, in *SendMessageRequest, opts ...client.CallOption) (*SendMessageResponse, error) {
+	req := c.c.NewRequest(c.name, "Twilio.SendMessage", in)
+	out := new(SendMessageResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,119 +69,27 @@ func (c *twilioService) Call(ctx context.Context, in *Request, opts ...client.Ca
 	return out, nil
 }
 
-func (c *twilioService) Stream(ctx context.Context, in *StreamingRequest, opts ...client.CallOption) (Twilio_StreamService, error) {
-	req := c.c.NewRequest(c.name, "Twilio.Stream", &StreamingRequest{})
-	stream, err := c.c.Stream(ctx, req, opts...)
+func (c *twilioService) GetMessage(ctx context.Context, in *GetMessageRequest, opts ...client.CallOption) (*GetMessageResponse, error) {
+	req := c.c.NewRequest(c.name, "Twilio.GetMessage", in)
+	out := new(GetMessageResponse)
+	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	if err := stream.Send(in); err != nil {
-		return nil, err
-	}
-	return &twilioServiceStream{stream}, nil
-}
-
-type Twilio_StreamService interface {
-	Context() context.Context
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Recv() (*StreamingResponse, error)
-}
-
-type twilioServiceStream struct {
-	stream client.Stream
-}
-
-func (x *twilioServiceStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *twilioServiceStream) Context() context.Context {
-	return x.stream.Context()
-}
-
-func (x *twilioServiceStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioServiceStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *twilioServiceStream) Recv() (*StreamingResponse, error) {
-	m := new(StreamingResponse)
-	err := x.stream.Recv(m)
-	if err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *twilioService) PingPong(ctx context.Context, opts ...client.CallOption) (Twilio_PingPongService, error) {
-	req := c.c.NewRequest(c.name, "Twilio.PingPong", &Ping{})
-	stream, err := c.c.Stream(ctx, req, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &twilioServicePingPong{stream}, nil
-}
-
-type Twilio_PingPongService interface {
-	Context() context.Context
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*Ping) error
-	Recv() (*Pong, error)
-}
-
-type twilioServicePingPong struct {
-	stream client.Stream
-}
-
-func (x *twilioServicePingPong) Close() error {
-	return x.stream.Close()
-}
-
-func (x *twilioServicePingPong) Context() context.Context {
-	return x.stream.Context()
-}
-
-func (x *twilioServicePingPong) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioServicePingPong) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *twilioServicePingPong) Send(m *Ping) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioServicePingPong) Recv() (*Pong, error) {
-	m := new(Pong)
-	err := x.stream.Recv(m)
-	if err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // Server API for Twilio service
 
 type TwilioHandler interface {
-	Call(context.Context, *Request, *Response) error
-	Stream(context.Context, *StreamingRequest, Twilio_StreamStream) error
-	PingPong(context.Context, Twilio_PingPongStream) error
+	SendMessage(context.Context, *SendMessageRequest, *SendMessageResponse) error
+	GetMessage(context.Context, *GetMessageRequest, *GetMessageResponse) error
 }
 
 func RegisterTwilioHandler(s server.Server, hdlr TwilioHandler, opts ...server.HandlerOption) error {
 	type twilio interface {
-		Call(ctx context.Context, in *Request, out *Response) error
-		Stream(ctx context.Context, stream server.Stream) error
-		PingPong(ctx context.Context, stream server.Stream) error
+		SendMessage(ctx context.Context, in *SendMessageRequest, out *SendMessageResponse) error
+		GetMessage(ctx context.Context, in *GetMessageRequest, out *GetMessageResponse) error
 	}
 	type Twilio struct {
 		twilio
@@ -194,91 +102,10 @@ type twilioHandler struct {
 	TwilioHandler
 }
 
-func (h *twilioHandler) Call(ctx context.Context, in *Request, out *Response) error {
-	return h.TwilioHandler.Call(ctx, in, out)
+func (h *twilioHandler) SendMessage(ctx context.Context, in *SendMessageRequest, out *SendMessageResponse) error {
+	return h.TwilioHandler.SendMessage(ctx, in, out)
 }
 
-func (h *twilioHandler) Stream(ctx context.Context, stream server.Stream) error {
-	m := new(StreamingRequest)
-	if err := stream.Recv(m); err != nil {
-		return err
-	}
-	return h.TwilioHandler.Stream(ctx, m, &twilioStreamStream{stream})
-}
-
-type Twilio_StreamStream interface {
-	Context() context.Context
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*StreamingResponse) error
-}
-
-type twilioStreamStream struct {
-	stream server.Stream
-}
-
-func (x *twilioStreamStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *twilioStreamStream) Context() context.Context {
-	return x.stream.Context()
-}
-
-func (x *twilioStreamStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioStreamStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *twilioStreamStream) Send(m *StreamingResponse) error {
-	return x.stream.Send(m)
-}
-
-func (h *twilioHandler) PingPong(ctx context.Context, stream server.Stream) error {
-	return h.TwilioHandler.PingPong(ctx, &twilioPingPongStream{stream})
-}
-
-type Twilio_PingPongStream interface {
-	Context() context.Context
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*Pong) error
-	Recv() (*Ping, error)
-}
-
-type twilioPingPongStream struct {
-	stream server.Stream
-}
-
-func (x *twilioPingPongStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *twilioPingPongStream) Context() context.Context {
-	return x.stream.Context()
-}
-
-func (x *twilioPingPongStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioPingPongStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *twilioPingPongStream) Send(m *Pong) error {
-	return x.stream.Send(m)
-}
-
-func (x *twilioPingPongStream) Recv() (*Ping, error) {
-	m := new(Ping)
-	if err := x.stream.Recv(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+func (h *twilioHandler) GetMessage(ctx context.Context, in *GetMessageRequest, out *GetMessageResponse) error {
+	return h.TwilioHandler.GetMessage(ctx, in, out)
 }

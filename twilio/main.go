@@ -1,8 +1,8 @@
 package main
 
 import (
-	"twilio/handler"
-	pb "twilio/proto"
+	"github.com/ansg191/northstars-backend/twilio/handler"
+	pb "github.com/ansg191/northstars-backend/twilio/proto"
 
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"

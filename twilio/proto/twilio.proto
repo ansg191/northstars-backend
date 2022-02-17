@@ -2,38 +2,60 @@ syntax = "proto3";
 
 package twilio;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./proto;twilio";
 
 service Twilio {
-	rpc Call(Request) returns (Response) {}
-	rpc Stream(StreamingRequest) returns (stream StreamingResponse) {}
-	rpc PingPong(stream Ping) returns (stream Pong) {}
+	rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+	rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {}
 }
 
 message Message {
-	string say = 1;
+	string body = 1;
+	google.protobuf.Timestamp dateCreated = 2;
+	google.protobuf.Timestamp dateSent = 3;
+	google.protobuf.Timestamp dateUpdated = 4;
+	string direction = 5;
+	string from = 6;
+	string numMedia = 7;
+	string numSegments = 8;
+	string price = 9;
+	string priceUnit = 10;
+	string sid = 11;
+
+	enum Status {
+		ACCEPTED = 0;
+		SCHEDULED = 1;
+		QUEUED = 2;
+		SENDING = 3;
+		SENT = 4;
+		RECEIVING = 5;
+		RECEIVED = 6;
+		DELIVERED = 7;
+		UNDELIVERED = 8;
+		FAILED = 9;
+		READ = 10;
+		CANCELED = 11;
+	}
+	Status status = 12;
+	string to = 14;
+	string uri = 15;
 }
 
-message Request {
-	string name = 1;
+message SendMessageRequest {
+	string to = 1;
+	string body = 2;
 }
 
-message Response {
-	string msg = 1;
+message SendMessageResponse {
+	Message msg = 1;
 }
 
-message StreamingRequest {
-	int64 count = 1;
+message GetMessageRequest {
+	string sid = 1;
 }
 
-message StreamingResponse {
-	int64 count = 1;
-}
-
-message Ping {
-	int64 stroke = 1;
-}
-
-message Pong {
-	int64 stroke = 1;
+message GetMessageResponse {
+	Message msg = 1;
 }
