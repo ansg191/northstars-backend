@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package touchpad;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./proto;touchpad";
+
+service Touchpad {
+	rpc GetMeetInfo(GetMeetInfoRequest) returns (GetMeetInfoResponse) {}
+	rpc GetMeetEvents(GetMeetEventsRequest) returns (GetMeetEventsResponse) {}
+	rpc GetIEvent(GetIEventRequest) returns (GetIEventResponse) {}
+
+	rpc CheckMeetDiff(CheckMeetDiffRequest) returns (CheckMeetDiffResponse) {}
+}
+
+message GetMeetInfoRequest {
+	int32 meetID = 1;
+}
+
+message GetMeetInfoResponse {
+	int32 id = 1;
+	string courseName = 2;
+	string courseOrder = 3;
+	google.protobuf.Timestamp startDate = 4;
+	google.protobuf.Timestamp endDate = 5;
+	int32 events = 6;
+	int32 females = 7;
+	int32 males = 8;
+	string hostTeamName = 9;
+	bool isEnded = 10;
+	bool isEnded24Hrs = 11;
+	bool isFinalsMeet = 12;
+	bool isPrelimMeet = 13;
+	bool isStarted = 14;
+	string meetName = 15;
+	int32 teamCount = 16;
+}
+
+message Event {
+	int32 id = 1;
+	int32 ageHi = 2;
+	int32 ageLow = 3;
+	string ageGroup = 4;
+	string day = 5;
+	int32 distance = 6;
+	int32 eventNumber = 7;
+
+	enum Gender {
+		MIXED = 0;
+		MALE = 1;
+		FEMALE = 2;
+	}
+	Gender gender = 8;
+	bool relay = 9;
+	int32 rounds = 10;
+	int32 session = 11;
+
+	enum Status {
+		UPCOMING = 0;
+		SEEDED = 1;
+		IN_PROGRESS = 2;
+		COMPLETED = 3;
+	}
+	Status status = 12;
+
+	enum Stroke {
+		FREE = 0;
+		BREAST = 1;
+		BACK = 2;
+		FLY = 3;
+		MEDLEY = 4;
+	}
+	Stroke stroke = 13;
+}
+
+message GetMeetEventsRequest {
+	int32 meetID = 1;
+}
+
+message GetMeetEventsResponse {
+	repeated Event events = 1;
+}
+
+message ITiming {
+	int32 eventID = 1;
+	int32 swimmerID =2;
+	int32 teamID = 3;
+
+	string firstName = 4;
+	string lastName = 5;
+	string teamName = 6;
+
+	int32 heat = 7;
+	int32 lane = 8;
+
+	sint32 seedTime = 9;
+	string formattedSeedTime = 10;
+
+	float points = 11;
+	int32 rank = 12;
+	int32 time = 13;
+	string formattedTime = 14;
+}
+
+message GetIEventRequest {
+	int32 meetID = 1;
+	int32 eventID = 2;
+}
+
+message GetIEventResponse {
+	repeated ITiming timings = 1;
+}
+
+message CheckMeetDiffRequest {
+	int32 meetID = 1;
+}
+
+message CheckMeetDiffResponse {
+	bool initial = 1;
+	bool diffExists = 2;
+
+	message Diff {
+		Event old = 1;
+		Event new = 2;
+	}
+	repeated Diff diffs = 3;
+}

