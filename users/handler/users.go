@@ -33,11 +33,11 @@ func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *use
 		return errors.BadRequest("users.NewUser", "Email and Password not provided")
 	}
 
-	//if accountExists, err := utils.CheckAccountExists(ctx, e.Accounts, req.Email); err != nil {
-	//	return err
-	//} else if accountExists {
-	//	return errors.Forbidden("users.NewUser", "Account already exists for %s", req.Email)
-	//}
+	if accountExists, err := utils.CheckAccountExists(ctx, e.DB, req.Email); err != nil {
+		return err
+	} else if accountExists {
+		return errors.Forbidden("users.NewUser", "Account already exists for %s", req.Email)
+	}
 
 	cookies, err := utils.GetCookies(ctx, e.Cookies)
 	if err != nil {
@@ -116,6 +116,7 @@ func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *use
 		Email:     rsp.Email,
 		FirstName: rsp.FirstName,
 		LastName:  rsp.LastName,
+		JoinDate:  rsp.JoinedDate,
 	})
 	if err != nil {
 		return err

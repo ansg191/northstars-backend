@@ -42,8 +42,8 @@ github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190808125512-07798873deee/go.mod
 github.com/aliyun/aliyun-oss-go-sdk v0.0.0-20190307165228-86c17b95fcd5/go.mod h1:T/Aws4fEfogEE9v+HPhhw+CntffsBHJ8nXQCwKr0/g8=
 github.com/ansg191/northstars-backend/cookie-stealer v0.0.0-20220221022916-799a541a8c4a h1:fucg+55otZvNhmyEm1aeXgGmrnBx/JT7oEorotAoOAA=
 github.com/ansg191/northstars-backend/cookie-stealer v0.0.0-20220221022916-799a541a8c4a/go.mod h1:ANS+vXU9eXRG63J9GwZdwGiSY31xhyvly82ByHtrwAc=
-github.com/ansg191/northstars-backend/database v0.0.0-20220222051536-7092d4ebdafd h1:rlfd99MOJemi3AJJglm4f5m/xRFBNGYYR8HVtQvOg1o=
-github.com/ansg191/northstars-backend/database v0.0.0-20220222051536-7092d4ebdafd/go.mod h1:MLfVfDQSS/z9+UrHKSsPqY6kRQFXzX1hUp7XXb+Qm68=
+github.com/ansg191/northstars-backend/database v0.0.0-20220222060009-2dea5de19a3a h1:pypoNgWHi16jA2t+40KHil3kk8Yd3Hn1WRlsWMll60Y=
+github.com/ansg191/northstars-backend/database v0.0.0-20220222060009-2dea5de19a3a/go.mod h1:MLfVfDQSS/z9+UrHKSsPqY6kRQFXzX1hUp7XXb+Qm68=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/apache/thrift v0.12.0/go.mod h1:cp2SuWMxlEZw2r+iP2GNCdIi4C1qmUzdZFSVb+bacwQ=
 github.com/aws/aws-sdk-go v1.23.0/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=

@@ -2,20 +2,16 @@ package utils
 
 import (
 	"context"
-	"github.com/micro/micro/v3/proto/auth"
+	database "github.com/ansg191/northstars-backend/database/proto"
 )
 
-func CheckAccountExists(ctx context.Context, service auth.AccountsService, id string) (bool, error) {
-	accounts, err := service.List(ctx, &auth.ListAccountsRequest{})
+func CheckAccountExists(ctx context.Context, service database.DatabaseService, email string) (bool, error) {
+	account, err := service.GetAccount(ctx, &database.GetAccountRequest{
+		Identifier: &database.GetAccountRequest_Email{Email: email},
+	})
 	if err != nil {
 		return false, err
 	}
 
-	for _, account := range accounts.Accounts {
-		if account.Id == id {
-			return true, nil
-		}
-	}
-
-	return false, nil
+	return account.Account != nil, nil
 }

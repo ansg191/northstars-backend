@@ -46,7 +46,7 @@ func (e *Database) GetAccount(ctx context.Context, req *database.GetAccountReque
 	if id, ok := req.GetIdentifier().(*database.GetAccountRequest_Id); ok {
 		if err := e.DB.WithContext(ctx).First(&account, id.Id).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return microErr.NotFound("database.GetAccount", "Account with id %d not found", id.Id)
+				return nil
 			}
 			return err
 		}
@@ -55,7 +55,7 @@ func (e *Database) GetAccount(ctx context.Context, req *database.GetAccountReque
 			Where("email = ?", email.Email).
 			First(&account).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return microErr.NotFound("database.GetAccount", "Account with email %s not found", email.Email)
+				return nil
 			}
 			return err
 		}
