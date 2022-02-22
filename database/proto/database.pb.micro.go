@@ -6,6 +6,7 @@ package database
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	math "math"
 )
 
@@ -43,6 +44,7 @@ func NewDatabaseEndpoints() []*api.Endpoint {
 
 type DatabaseService interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...client.CallOption) (*GetAccountResponse, error)
 }
 
 type databaseService struct {
@@ -67,15 +69,27 @@ func (c *databaseService) CreateAccount(ctx context.Context, in *CreateAccountRe
 	return out, nil
 }
 
+func (c *databaseService) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...client.CallOption) (*GetAccountResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.GetAccount", in)
+	out := new(GetAccountResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Database service
 
 type DatabaseHandler interface {
 	CreateAccount(context.Context, *CreateAccountRequest, *CreateAccountResponse) error
+	GetAccount(context.Context, *GetAccountRequest, *GetAccountResponse) error
 }
 
 func RegisterDatabaseHandler(s server.Server, hdlr DatabaseHandler, opts ...server.HandlerOption) error {
 	type database interface {
 		CreateAccount(ctx context.Context, in *CreateAccountRequest, out *CreateAccountResponse) error
+		GetAccount(ctx context.Context, in *GetAccountRequest, out *GetAccountResponse) error
 	}
 	type Database struct {
 		database
@@ -90,4 +104,8 @@ type databaseHandler struct {
 
 func (h *databaseHandler) CreateAccount(ctx context.Context, in *CreateAccountRequest, out *CreateAccountResponse) error {
 	return h.DatabaseHandler.CreateAccount(ctx, in, out)
+}
+
+func (h *databaseHandler) GetAccount(ctx context.Context, in *GetAccountRequest, out *GetAccountResponse) error {
+	return h.DatabaseHandler.GetAccount(ctx, in, out)
 }

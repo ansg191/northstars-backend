@@ -14,6 +14,7 @@ type Account struct {
 	Email        string `gorm:"uniqueIndex"`
 	FirstName    string
 	LastName     string
+	JoinDate     time.Time
 	PhoneNumbers []PhoneNumber
 }
 

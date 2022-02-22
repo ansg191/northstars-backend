@@ -2,17 +2,46 @@ syntax = "proto3";
 
 package database;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./proto;database";
 
 service Database {
-	rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
 }
 
 message CreateAccountRequest {
-	int32 id = 1;
-	string email = 2;
-	string firstName = 3;
-	string lastName = 4;
+  int32 id = 1;
+  string email = 2;
+  string firstName = 3;
+  string lastName = 4;
+  google.protobuf.Timestamp  joinDate = 5;
 }
 
 message CreateAccountResponse {}
+
+message Account {
+  int32 id = 1;
+  string email = 2;
+  string firstName = 3;
+  string lastName = 4;
+  google.protobuf.Timestamp joinDate = 5;
+  repeated PhoneNumber phoneNumbers = 6;
+}
+
+message PhoneNumber {
+  string number = 1;
+  bool smsEnabled = 2;
+}
+
+message GetAccountRequest {
+  oneof identifier {
+    int32 id = 1;
+    string email = 2;
+  }
+}
+
+message GetAccountResponse {
+  Account account = 1;
+}
