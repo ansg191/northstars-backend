@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package database;
+
+option go_package = "./proto;database";
+
+service Database {
+	rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+}
+
+message CreateAccountRequest {
+	int32 id = 1;
+	string email = 2;
+	string firstName = 3;
+	string lastName = 4;
+}
+
+message CreateAccountResponse {}
