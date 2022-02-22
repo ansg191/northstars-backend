@@ -2,6 +2,7 @@ package main
 
 import (
 	cookiestealer "github.com/ansg191/northstars-backend/cookie-stealer/proto"
+	database "github.com/ansg191/northstars-backend/database/proto"
 	"github.com/ansg191/northstars-backend/users/handler"
 	pb "github.com/ansg191/northstars-backend/users/proto"
 
@@ -20,6 +21,7 @@ func main() {
 	userHandler := new(handler.Users)
 	userHandler.Cookies = cookiestealer.NewCookieStealerService("cookie-stealer", srv.Client())
 	userHandler.Accounts = auth.NewAccountsService("auth", srv.Client())
+	userHandler.DB = database.NewDatabaseService("database", srv.Client())
 
 	// Register handler
 	pb.RegisterUsersHandler(srv.Server(), userHandler)

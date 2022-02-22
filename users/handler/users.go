@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"fmt"
+	database "github.com/ansg191/northstars-backend/database/proto"
 	"strconv"
 
 	authProto "github.com/micro/micro/v3/proto/auth"
@@ -21,6 +22,7 @@ import (
 type Users struct {
 	Cookies  cookiestealer.CookieStealerService
 	Accounts authProto.AccountsService
+	DB       database.DatabaseService
 }
 
 // NewUser is a single request handler called via client.Call or the generated client code
@@ -31,11 +33,11 @@ func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *use
 		return errors.BadRequest("users.NewUser", "Email and Password not provided")
 	}
 
-	if accountExists, err := utils.CheckAccountExists(ctx, e.Accounts, req.Email); err != nil {
-		return err
-	} else if accountExists {
-		return errors.Forbidden("users.NewUser", "Account already exists for %s", req.Email)
-	}
+	//if accountExists, err := utils.CheckAccountExists(ctx, e.Accounts, req.Email); err != nil {
+	//	return err
+	//} else if accountExists {
+	//	return errors.Forbidden("users.NewUser", "Account already exists for %s", req.Email)
+	//}
 
 	cookies, err := utils.GetCookies(ctx, e.Cookies)
 	if err != nil {
@@ -102,10 +104,19 @@ func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *use
 		auth.WithName(fmt.Sprintf("%s %s", account.FirstName, account.LastName)),
 		auth.WithScopes("user"),
 		auth.WithMetadata(map[string]string{
-			"TeamUnify": rsp.String(),
-			"tuId":      strconv.Itoa(int(rsp.Id)),
+			"tuId": strconv.Itoa(int(rsp.Id)),
 		}),
 	)
+	if err != nil {
+		return err
+	}
+
+	_, err = e.DB.CreateAccount(ctx, &database.CreateAccountRequest{
+		Id:        rsp.Id,
+		Email:     rsp.Email,
+		FirstName: rsp.FirstName,
+		LastName:  rsp.LastName,
+	})
 	if err != nil {
 		return err
 	}
@@ -197,8 +208,6 @@ func (e *Users) WatchSwimmer(ctx context.Context, req *users.WatchSwimmerRequest
 			return err
 		}
 	}
-
-	log.Info(watchedSwimmers)
 
 	for _, swimmer := range watchedSwimmers {
 		if swimmer == int(req.Id) {
