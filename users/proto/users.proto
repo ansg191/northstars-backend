@@ -2,20 +2,79 @@ syntax = "proto3";
 
 package users;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./proto;users";
 
 service Users {
-	rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
-}
-
-message Message {
-	string say = 1;
+  rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
+  rpc GetSwimmers(GetSwimmersRequest) returns (GetSwimmersResponse) {}
+  rpc WatchSwimmer(WatchSwimmerRequest) returns (WatchSwimmerResponse) {}
 }
 
 message NewUserRequest {
-	string email = 1;
+  string email = 1;
+  string password = 2;
 }
 
 message NewUserResponse {
+  int32 id = 1;
+  string email = 2;
 
+  string sms = 3;
+  string homePhone = 4;
+  string workPhone = 5;
+
+  string firstName = 6;
+  string middleInitial = 7;
+  string lastName = 8;
+
+  string address = 9;
+  string address2 = 10;
+  string city = 11;
+  string state = 12;
+  string zip = 13;
+
+  google.protobuf.Timestamp joinedDate = 14;
+
+  string pictureFile = 15;
+}
+
+message Member {
+  int32 id = 1;
+  int32 accountId = 2;
+
+  google.protobuf.Timestamp dob = 3;
+  google.protobuf.Timestamp dateJoined = 4;
+
+  string firstName = 5;
+  string middleInitial = 6;
+  string lastName = 7;
+
+  string preferredName = 8;
+
+  enum Sex {
+    MALE = 0;
+    FEMALE = 1;
+    OTHER = 2;
+  }
+  Sex sex = 9;
+
+  string swimmerIdentity = 10;
+
+  int32 rosterId = 11;
+}
+
+message GetSwimmersRequest {}
+
+message GetSwimmersResponse {
+  repeated Member members = 1;
+}
+
+message WatchSwimmerRequest {
+  int32 id = 1;
+}
+
+message WatchSwimmerResponse {
+  repeated int32 swimmerIds = 1;
 }

@@ -6,6 +6,7 @@ package users
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	math "math"
 )
 
@@ -43,6 +44,8 @@ func NewUsersEndpoints() []*api.Endpoint {
 
 type UsersService interface {
 	NewUser(ctx context.Context, in *NewUserRequest, opts ...client.CallOption) (*NewUserResponse, error)
+	GetSwimmers(ctx context.Context, in *GetSwimmersRequest, opts ...client.CallOption) (*GetSwimmersResponse, error)
+	WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, opts ...client.CallOption) (*WatchSwimmerResponse, error)
 }
 
 type usersService struct {
@@ -67,15 +70,39 @@ func (c *usersService) NewUser(ctx context.Context, in *NewUserRequest, opts ...
 	return out, nil
 }
 
+func (c *usersService) GetSwimmers(ctx context.Context, in *GetSwimmersRequest, opts ...client.CallOption) (*GetSwimmersResponse, error) {
+	req := c.c.NewRequest(c.name, "Users.GetSwimmers", in)
+	out := new(GetSwimmersResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersService) WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, opts ...client.CallOption) (*WatchSwimmerResponse, error) {
+	req := c.c.NewRequest(c.name, "Users.WatchSwimmer", in)
+	out := new(WatchSwimmerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Users service
 
 type UsersHandler interface {
 	NewUser(context.Context, *NewUserRequest, *NewUserResponse) error
+	GetSwimmers(context.Context, *GetSwimmersRequest, *GetSwimmersResponse) error
+	WatchSwimmer(context.Context, *WatchSwimmerRequest, *WatchSwimmerResponse) error
 }
 
 func RegisterUsersHandler(s server.Server, hdlr UsersHandler, opts ...server.HandlerOption) error {
 	type users interface {
 		NewUser(ctx context.Context, in *NewUserRequest, out *NewUserResponse) error
+		GetSwimmers(ctx context.Context, in *GetSwimmersRequest, out *GetSwimmersResponse) error
+		WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, out *WatchSwimmerResponse) error
 	}
 	type Users struct {
 		users
@@ -90,4 +117,12 @@ type usersHandler struct {
 
 func (h *usersHandler) NewUser(ctx context.Context, in *NewUserRequest, out *NewUserResponse) error {
 	return h.UsersHandler.NewUser(ctx, in, out)
+}
+
+func (h *usersHandler) GetSwimmers(ctx context.Context, in *GetSwimmersRequest, out *GetSwimmersResponse) error {
+	return h.UsersHandler.GetSwimmers(ctx, in, out)
+}
+
+func (h *usersHandler) WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, out *WatchSwimmerResponse) error {
+	return h.UsersHandler.WatchSwimmer(ctx, in, out)
 }

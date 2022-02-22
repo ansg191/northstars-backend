@@ -1,9 +1,11 @@
 package main
 
 import (
+	cookiestealer "github.com/ansg191/northstars-backend/cookie-stealer/proto"
 	"github.com/ansg191/northstars-backend/users/handler"
 	pb "github.com/ansg191/northstars-backend/users/proto"
 
+	"github.com/micro/micro/v3/proto/auth"
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"
 )
@@ -15,8 +17,12 @@ func main() {
 		service.Version("latest"),
 	)
 
+	userHandler := new(handler.Users)
+	userHandler.Cookies = cookiestealer.NewCookieStealerService("cookie-stealer", srv.Client())
+	userHandler.Accounts = auth.NewAccountsService("auth", srv.Client())
+
 	// Register handler
-	pb.RegisterUsersHandler(srv.Server(), new(handler.Users))
+	pb.RegisterUsersHandler(srv.Server(), userHandler)
 
 	// Run service
 	if err := srv.Run(); err != nil {
