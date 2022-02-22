@@ -5,10 +5,8 @@ import (
 	"errors"
 	database "github.com/ansg191/northstars-backend/database/proto"
 	"github.com/ansg191/northstars-backend/database/utils"
-	"github.com/gotidy/ptr"
 	microErr "github.com/micro/micro/v3/service/errors"
 	log "github.com/micro/micro/v3/service/logger"
-	"google.golang.org/protobuf/types/known/timestamppb"
 	"gorm.io/gorm"
 )
 
@@ -43,7 +41,7 @@ func (e *Database) CreateAccount(ctx context.Context, req *database.CreateAccoun
 func (e *Database) GetAccount(ctx context.Context, req *database.GetAccountRequest, rsp *database.GetAccountResponse) error {
 	var account utils.Account
 	if id, ok := req.GetIdentifier().(*database.GetAccountRequest_Id); ok {
-		if err := e.DB.WithContext(ctx).First(&account, id.Id).Error; err != nil {
+		if err := e.DB.WithContext(ctx).Preload("WatchedSwimmers").First(&account, id.Id).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return nil
 			}
@@ -51,6 +49,7 @@ func (e *Database) GetAccount(ctx context.Context, req *database.GetAccountReque
 		}
 	} else if email, ok := req.GetIdentifier().(*database.GetAccountRequest_Email); ok {
 		if err := e.DB.WithContext(ctx).
+			Preload("WatchedSwimmers").
 			Where("email = ?", email.Email).
 			First(&account).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -62,23 +61,7 @@ func (e *Database) GetAccount(ctx context.Context, req *database.GetAccountReque
 		return microErr.BadRequest("database.GetAccount", "identifier not provided")
 	}
 
-	protoAccount := database.Account{
-		Id:        account.ID,
-		Email:     account.Email,
-		FirstName: account.FirstName,
-		LastName:  account.LastName,
-		JoinDate:  timestamppb.New(account.JoinDate),
-	}
-
-	for _, number := range account.PhoneNumbers {
-		protoNumber := database.PhoneNumber{
-			Number:     number.Number,
-			SmsEnabled: number.SmsEnabled,
-		}
-		protoAccount.PhoneNumbers = append(protoAccount.PhoneNumbers, &protoNumber)
-	}
-
-	rsp.Account = &protoAccount
+	rsp.Account = utils.ConvertAccountToProto(&account)
 
 	return nil
 }
@@ -208,7 +191,6 @@ func (e *Database) GetSwimmer(ctx context.Context, req *database.GetSwimmerReque
 	var swimmer utils.Swimmer
 	if id, ok := req.Identifier.(*database.GetSwimmerRequest_Id); ok {
 		err := e.DB.WithContext(ctx).
-			Debug().
 			Preload("Watchers").
 			First(&swimmer, id.Id).
 			Error
@@ -220,6 +202,7 @@ func (e *Database) GetSwimmer(ctx context.Context, req *database.GetSwimmerReque
 		}
 	} else if identity, ok := req.Identifier.(*database.GetSwimmerRequest_SwimmerIdentity); ok {
 		err := e.DB.WithContext(ctx).
+			Preload("Watchers").
 			Where("swimmer_identity = ?", identity.SwimmerIdentity).
 			First(&swimmer).
 			Error
@@ -231,6 +214,7 @@ func (e *Database) GetSwimmer(ctx context.Context, req *database.GetSwimmerReque
 		}
 	} else if identifier, ok := req.Identifier.(*database.GetSwimmerRequest_Name); ok {
 		err := e.DB.WithContext(ctx).
+			Preload("Watchers").
 			Where(
 				"first_name = ? AND last_name = ? AND dob = ?",
 				identifier.Name.FirstName,
@@ -249,42 +233,7 @@ func (e *Database) GetSwimmer(ctx context.Context, req *database.GetSwimmerReque
 		return microErr.BadRequest("database.GetSwimmer", "Identifier not provided")
 	}
 
-	protoSwimmer := database.Swimmer{
-		Id:              swimmer.ID,
-		AccountId:       swimmer.AccountID,
-		Dob:             timestamppb.New(swimmer.DOB),
-		DateJoined:      timestamppb.New(swimmer.DateJoined),
-		FirstName:       swimmer.FirstName,
-		MiddleInitial:   ptr.ToString(swimmer.MiddleInitial),
-		LastName:        swimmer.LastName,
-		PreferredName:   ptr.ToString(swimmer.PreferredName),
-		SwimmerIdentity: swimmer.SwimmerIdentity,
-		RosterId:        swimmer.RosterID,
-		Watchers:        nil,
-	}
-
-	switch swimmer.Sex {
-	case "MALE":
-		protoSwimmer.Sex = database.Swimmer_MALE
-	case "FEMALE":
-		protoSwimmer.Sex = database.Swimmer_FEMALE
-	case "OTHER":
-		protoSwimmer.Sex = database.Swimmer_OTHER
-	}
-
-	for _, watcher := range swimmer.Watchers {
-		protoAccount := database.Account{
-			Id:           watcher.ID,
-			Email:        watcher.Email,
-			FirstName:    watcher.FirstName,
-			LastName:     watcher.LastName,
-			JoinDate:     timestamppb.New(watcher.JoinDate),
-			PhoneNumbers: nil,
-		}
-		protoSwimmer.Watchers = append(protoSwimmer.Watchers, &protoAccount)
-	}
-
-	rsp.Swimmer = &protoSwimmer
+	rsp.Swimmer = utils.ConvertSwimmerToProto(&swimmer)
 
 	return nil
 }

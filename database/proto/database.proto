@@ -37,6 +37,7 @@ message Account {
   string lastName = 4;
   google.protobuf.Timestamp joinDate = 5;
   repeated PhoneNumber phoneNumbers = 6;
+  repeated Swimmer watches = 7;
 }
 
 message PhoneNumber {
