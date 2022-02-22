@@ -45,6 +45,12 @@ func NewDatabaseEndpoints() []*api.Endpoint {
 type DatabaseService interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...client.CallOption) (*GetAccountResponse, error)
+	AddPhoneNumber(ctx context.Context, in *AddPhoneNumberRequest, opts ...client.CallOption) (*AddPhoneNumberResponse, error)
+	RemovePhoneNumber(ctx context.Context, in *RemovePhoneNumberRequest, opts ...client.CallOption) (*RemovePhoneNumberResponse, error)
+	CreateSwimmer(ctx context.Context, in *CreateSwimmerRequest, opts ...client.CallOption) (*CreateSwimmerResponse, error)
+	GetSwimmer(ctx context.Context, in *GetSwimmerRequest, opts ...client.CallOption) (*GetSwimmerResponse, error)
+	WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, opts ...client.CallOption) (*WatchSwimmerResponse, error)
+	UnWatchSwimmer(ctx context.Context, in *UnWatchSwimmerRequest, opts ...client.CallOption) (*UnWatchSwimmerResponse, error)
 }
 
 type databaseService struct {
@@ -79,17 +85,89 @@ func (c *databaseService) GetAccount(ctx context.Context, in *GetAccountRequest,
 	return out, nil
 }
 
+func (c *databaseService) AddPhoneNumber(ctx context.Context, in *AddPhoneNumberRequest, opts ...client.CallOption) (*AddPhoneNumberResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.AddPhoneNumber", in)
+	out := new(AddPhoneNumberResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseService) RemovePhoneNumber(ctx context.Context, in *RemovePhoneNumberRequest, opts ...client.CallOption) (*RemovePhoneNumberResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.RemovePhoneNumber", in)
+	out := new(RemovePhoneNumberResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseService) CreateSwimmer(ctx context.Context, in *CreateSwimmerRequest, opts ...client.CallOption) (*CreateSwimmerResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.CreateSwimmer", in)
+	out := new(CreateSwimmerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseService) GetSwimmer(ctx context.Context, in *GetSwimmerRequest, opts ...client.CallOption) (*GetSwimmerResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.GetSwimmer", in)
+	out := new(GetSwimmerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseService) WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, opts ...client.CallOption) (*WatchSwimmerResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.WatchSwimmer", in)
+	out := new(WatchSwimmerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *databaseService) UnWatchSwimmer(ctx context.Context, in *UnWatchSwimmerRequest, opts ...client.CallOption) (*UnWatchSwimmerResponse, error) {
+	req := c.c.NewRequest(c.name, "Database.UnWatchSwimmer", in)
+	out := new(UnWatchSwimmerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Database service
 
 type DatabaseHandler interface {
 	CreateAccount(context.Context, *CreateAccountRequest, *CreateAccountResponse) error
 	GetAccount(context.Context, *GetAccountRequest, *GetAccountResponse) error
+	AddPhoneNumber(context.Context, *AddPhoneNumberRequest, *AddPhoneNumberResponse) error
+	RemovePhoneNumber(context.Context, *RemovePhoneNumberRequest, *RemovePhoneNumberResponse) error
+	CreateSwimmer(context.Context, *CreateSwimmerRequest, *CreateSwimmerResponse) error
+	GetSwimmer(context.Context, *GetSwimmerRequest, *GetSwimmerResponse) error
+	WatchSwimmer(context.Context, *WatchSwimmerRequest, *WatchSwimmerResponse) error
+	UnWatchSwimmer(context.Context, *UnWatchSwimmerRequest, *UnWatchSwimmerResponse) error
 }
 
 func RegisterDatabaseHandler(s server.Server, hdlr DatabaseHandler, opts ...server.HandlerOption) error {
 	type database interface {
 		CreateAccount(ctx context.Context, in *CreateAccountRequest, out *CreateAccountResponse) error
 		GetAccount(ctx context.Context, in *GetAccountRequest, out *GetAccountResponse) error
+		AddPhoneNumber(ctx context.Context, in *AddPhoneNumberRequest, out *AddPhoneNumberResponse) error
+		RemovePhoneNumber(ctx context.Context, in *RemovePhoneNumberRequest, out *RemovePhoneNumberResponse) error
+		CreateSwimmer(ctx context.Context, in *CreateSwimmerRequest, out *CreateSwimmerResponse) error
+		GetSwimmer(ctx context.Context, in *GetSwimmerRequest, out *GetSwimmerResponse) error
+		WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, out *WatchSwimmerResponse) error
+		UnWatchSwimmer(ctx context.Context, in *UnWatchSwimmerRequest, out *UnWatchSwimmerResponse) error
 	}
 	type Database struct {
 		database
@@ -108,4 +186,28 @@ func (h *databaseHandler) CreateAccount(ctx context.Context, in *CreateAccountRe
 
 func (h *databaseHandler) GetAccount(ctx context.Context, in *GetAccountRequest, out *GetAccountResponse) error {
 	return h.DatabaseHandler.GetAccount(ctx, in, out)
+}
+
+func (h *databaseHandler) AddPhoneNumber(ctx context.Context, in *AddPhoneNumberRequest, out *AddPhoneNumberResponse) error {
+	return h.DatabaseHandler.AddPhoneNumber(ctx, in, out)
+}
+
+func (h *databaseHandler) RemovePhoneNumber(ctx context.Context, in *RemovePhoneNumberRequest, out *RemovePhoneNumberResponse) error {
+	return h.DatabaseHandler.RemovePhoneNumber(ctx, in, out)
+}
+
+func (h *databaseHandler) CreateSwimmer(ctx context.Context, in *CreateSwimmerRequest, out *CreateSwimmerResponse) error {
+	return h.DatabaseHandler.CreateSwimmer(ctx, in, out)
+}
+
+func (h *databaseHandler) GetSwimmer(ctx context.Context, in *GetSwimmerRequest, out *GetSwimmerResponse) error {
+	return h.DatabaseHandler.GetSwimmer(ctx, in, out)
+}
+
+func (h *databaseHandler) WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, out *WatchSwimmerResponse) error {
+	return h.DatabaseHandler.WatchSwimmer(ctx, in, out)
+}
+
+func (h *databaseHandler) UnWatchSwimmer(ctx context.Context, in *UnWatchSwimmerRequest, out *UnWatchSwimmerResponse) error {
+	return h.DatabaseHandler.UnWatchSwimmer(ctx, in, out)
 }

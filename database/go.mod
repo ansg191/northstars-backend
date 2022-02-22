@@ -4,7 +4,9 @@ go 1.15
 
 require (
 	github.com/golang/protobuf v1.5.2
+	github.com/gotidy/ptr v1.3.0
 	github.com/micro/micro/v3 v3.9.0
+	github.com/nyaruka/phonenumbers v1.0.74
 	google.golang.org/protobuf v1.27.1
 	gorm.io/driver/postgres v1.3.1
 	gorm.io/gorm v1.23.1

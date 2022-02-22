@@ -21,6 +21,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Swimmer_Sex int32
+
+const (
+	Swimmer_MALE   Swimmer_Sex = 0
+	Swimmer_FEMALE Swimmer_Sex = 1
+	Swimmer_OTHER  Swimmer_Sex = 2
+)
+
+// Enum value maps for Swimmer_Sex.
+var (
+	Swimmer_Sex_name = map[int32]string{
+		0: "MALE",
+		1: "FEMALE",
+		2: "OTHER",
+	}
+	Swimmer_Sex_value = map[string]int32{
+		"MALE":   0,
+		"FEMALE": 1,
+		"OTHER":  2,
+	}
+)
+
+func (x Swimmer_Sex) Enum() *Swimmer_Sex {
+	p := new(Swimmer_Sex)
+	*p = x
+	return p
+}
+
+func (x Swimmer_Sex) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Swimmer_Sex) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_database_proto_enumTypes[0].Descriptor()
+}
+
+func (Swimmer_Sex) Type() protoreflect.EnumType {
+	return &file_proto_database_proto_enumTypes[0]
+}
+
+func (x Swimmer_Sex) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Swimmer_Sex.Descriptor instead.
+func (Swimmer_Sex) EnumDescriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{10, 0}
+}
+
 type CreateAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -407,6 +456,802 @@ func (x *GetAccountResponse) GetAccount() *Account {
 	return nil
 }
 
+type AddPhoneNumberRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id          int32        `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	PhoneNumber *PhoneNumber `protobuf:"bytes,2,opt,name=phoneNumber,proto3" json:"phoneNumber,omitempty"`
+}
+
+func (x *AddPhoneNumberRequest) Reset() {
+	*x = AddPhoneNumberRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddPhoneNumberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddPhoneNumberRequest) ProtoMessage() {}
+
+func (x *AddPhoneNumberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddPhoneNumberRequest.ProtoReflect.Descriptor instead.
+func (*AddPhoneNumberRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *AddPhoneNumberRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AddPhoneNumberRequest) GetPhoneNumber() *PhoneNumber {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return nil
+}
+
+type AddPhoneNumberResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *AddPhoneNumberResponse) Reset() {
+	*x = AddPhoneNumberResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AddPhoneNumberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddPhoneNumberResponse) ProtoMessage() {}
+
+func (x *AddPhoneNumberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddPhoneNumberResponse.ProtoReflect.Descriptor instead.
+func (*AddPhoneNumberResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{7}
+}
+
+type RemovePhoneNumberRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id          int32  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	PhoneNumber string `protobuf:"bytes,2,opt,name=phoneNumber,proto3" json:"phoneNumber,omitempty"`
+}
+
+func (x *RemovePhoneNumberRequest) Reset() {
+	*x = RemovePhoneNumberRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemovePhoneNumberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemovePhoneNumberRequest) ProtoMessage() {}
+
+func (x *RemovePhoneNumberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemovePhoneNumberRequest.ProtoReflect.Descriptor instead.
+func (*RemovePhoneNumberRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RemovePhoneNumberRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *RemovePhoneNumberRequest) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+type RemovePhoneNumberResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RemovePhoneNumberResponse) Reset() {
+	*x = RemovePhoneNumberResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemovePhoneNumberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemovePhoneNumberResponse) ProtoMessage() {}
+
+func (x *RemovePhoneNumberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemovePhoneNumberResponse.ProtoReflect.Descriptor instead.
+func (*RemovePhoneNumberResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{9}
+}
+
+type Swimmer struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id              int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	AccountId       int32                  `protobuf:"varint,2,opt,name=accountId,proto3" json:"accountId,omitempty"`
+	Dob             *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=dob,proto3" json:"dob,omitempty"`
+	DateJoined      *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=dateJoined,proto3" json:"dateJoined,omitempty"`
+	FirstName       string                 `protobuf:"bytes,5,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	MiddleInitial   string                 `protobuf:"bytes,6,opt,name=middleInitial,proto3" json:"middleInitial,omitempty"`
+	LastName        string                 `protobuf:"bytes,7,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	PreferredName   string                 `protobuf:"bytes,8,opt,name=preferredName,proto3" json:"preferredName,omitempty"`
+	Sex             Swimmer_Sex            `protobuf:"varint,9,opt,name=sex,proto3,enum=database.Swimmer_Sex" json:"sex,omitempty"`
+	SwimmerIdentity string                 `protobuf:"bytes,10,opt,name=swimmerIdentity,proto3" json:"swimmerIdentity,omitempty"`
+	RosterId        int32                  `protobuf:"varint,11,opt,name=rosterId,proto3" json:"rosterId,omitempty"`
+	Watchers        []*Account             `protobuf:"bytes,12,rep,name=watchers,proto3" json:"watchers,omitempty"`
+}
+
+func (x *Swimmer) Reset() {
+	*x = Swimmer{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Swimmer) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Swimmer) ProtoMessage() {}
+
+func (x *Swimmer) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Swimmer.ProtoReflect.Descriptor instead.
+func (*Swimmer) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *Swimmer) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Swimmer) GetAccountId() int32 {
+	if x != nil {
+		return x.AccountId
+	}
+	return 0
+}
+
+func (x *Swimmer) GetDob() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Dob
+	}
+	return nil
+}
+
+func (x *Swimmer) GetDateJoined() *timestamppb.Timestamp {
+	if x != nil {
+		return x.DateJoined
+	}
+	return nil
+}
+
+func (x *Swimmer) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *Swimmer) GetMiddleInitial() string {
+	if x != nil {
+		return x.MiddleInitial
+	}
+	return ""
+}
+
+func (x *Swimmer) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
+func (x *Swimmer) GetPreferredName() string {
+	if x != nil {
+		return x.PreferredName
+	}
+	return ""
+}
+
+func (x *Swimmer) GetSex() Swimmer_Sex {
+	if x != nil {
+		return x.Sex
+	}
+	return Swimmer_MALE
+}
+
+func (x *Swimmer) GetSwimmerIdentity() string {
+	if x != nil {
+		return x.SwimmerIdentity
+	}
+	return ""
+}
+
+func (x *Swimmer) GetRosterId() int32 {
+	if x != nil {
+		return x.RosterId
+	}
+	return 0
+}
+
+func (x *Swimmer) GetWatchers() []*Account {
+	if x != nil {
+		return x.Watchers
+	}
+	return nil
+}
+
+type CreateSwimmerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Swimmer *Swimmer `protobuf:"bytes,1,opt,name=swimmer,proto3" json:"swimmer,omitempty"`
+}
+
+func (x *CreateSwimmerRequest) Reset() {
+	*x = CreateSwimmerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateSwimmerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSwimmerRequest) ProtoMessage() {}
+
+func (x *CreateSwimmerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSwimmerRequest.ProtoReflect.Descriptor instead.
+func (*CreateSwimmerRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CreateSwimmerRequest) GetSwimmer() *Swimmer {
+	if x != nil {
+		return x.Swimmer
+	}
+	return nil
+}
+
+type CreateSwimmerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CreateSwimmerResponse) Reset() {
+	*x = CreateSwimmerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateSwimmerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateSwimmerResponse) ProtoMessage() {}
+
+func (x *CreateSwimmerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateSwimmerResponse.ProtoReflect.Descriptor instead.
+func (*CreateSwimmerResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{12}
+}
+
+type GetSwimmerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Identifier:
+	//	*GetSwimmerRequest_Id
+	//	*GetSwimmerRequest_SwimmerIdentity
+	//	*GetSwimmerRequest_Name
+	Identifier isGetSwimmerRequest_Identifier `protobuf_oneof:"identifier"`
+}
+
+func (x *GetSwimmerRequest) Reset() {
+	*x = GetSwimmerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSwimmerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSwimmerRequest) ProtoMessage() {}
+
+func (x *GetSwimmerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSwimmerRequest.ProtoReflect.Descriptor instead.
+func (*GetSwimmerRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{13}
+}
+
+func (m *GetSwimmerRequest) GetIdentifier() isGetSwimmerRequest_Identifier {
+	if m != nil {
+		return m.Identifier
+	}
+	return nil
+}
+
+func (x *GetSwimmerRequest) GetId() int32 {
+	if x, ok := x.GetIdentifier().(*GetSwimmerRequest_Id); ok {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GetSwimmerRequest) GetSwimmerIdentity() string {
+	if x, ok := x.GetIdentifier().(*GetSwimmerRequest_SwimmerIdentity); ok {
+		return x.SwimmerIdentity
+	}
+	return ""
+}
+
+func (x *GetSwimmerRequest) GetName() *GetSwimmerRequest_SwimmerIdentifier {
+	if x, ok := x.GetIdentifier().(*GetSwimmerRequest_Name); ok {
+		return x.Name
+	}
+	return nil
+}
+
+type isGetSwimmerRequest_Identifier interface {
+	isGetSwimmerRequest_Identifier()
+}
+
+type GetSwimmerRequest_Id struct {
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3,oneof"`
+}
+
+type GetSwimmerRequest_SwimmerIdentity struct {
+	SwimmerIdentity string `protobuf:"bytes,2,opt,name=swimmerIdentity,proto3,oneof"`
+}
+
+type GetSwimmerRequest_Name struct {
+	Name *GetSwimmerRequest_SwimmerIdentifier `protobuf:"bytes,3,opt,name=name,proto3,oneof"`
+}
+
+func (*GetSwimmerRequest_Id) isGetSwimmerRequest_Identifier() {}
+
+func (*GetSwimmerRequest_SwimmerIdentity) isGetSwimmerRequest_Identifier() {}
+
+func (*GetSwimmerRequest_Name) isGetSwimmerRequest_Identifier() {}
+
+type GetSwimmerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Swimmer *Swimmer `protobuf:"bytes,1,opt,name=swimmer,proto3" json:"swimmer,omitempty"`
+}
+
+func (x *GetSwimmerResponse) Reset() {
+	*x = GetSwimmerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSwimmerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSwimmerResponse) ProtoMessage() {}
+
+func (x *GetSwimmerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSwimmerResponse.ProtoReflect.Descriptor instead.
+func (*GetSwimmerResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetSwimmerResponse) GetSwimmer() *Swimmer {
+	if x != nil {
+		return x.Swimmer
+	}
+	return nil
+}
+
+type WatchSwimmerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AccountId int32 `protobuf:"varint,1,opt,name=accountId,proto3" json:"accountId,omitempty"`
+	SwimmerId int32 `protobuf:"varint,2,opt,name=swimmerId,proto3" json:"swimmerId,omitempty"`
+}
+
+func (x *WatchSwimmerRequest) Reset() {
+	*x = WatchSwimmerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WatchSwimmerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchSwimmerRequest) ProtoMessage() {}
+
+func (x *WatchSwimmerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchSwimmerRequest.ProtoReflect.Descriptor instead.
+func (*WatchSwimmerRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *WatchSwimmerRequest) GetAccountId() int32 {
+	if x != nil {
+		return x.AccountId
+	}
+	return 0
+}
+
+func (x *WatchSwimmerRequest) GetSwimmerId() int32 {
+	if x != nil {
+		return x.SwimmerId
+	}
+	return 0
+}
+
+type WatchSwimmerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *WatchSwimmerResponse) Reset() {
+	*x = WatchSwimmerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *WatchSwimmerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WatchSwimmerResponse) ProtoMessage() {}
+
+func (x *WatchSwimmerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WatchSwimmerResponse.ProtoReflect.Descriptor instead.
+func (*WatchSwimmerResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{16}
+}
+
+type UnWatchSwimmerRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AccountId int32 `protobuf:"varint,1,opt,name=accountId,proto3" json:"accountId,omitempty"`
+	SwimmerId int32 `protobuf:"varint,2,opt,name=swimmerId,proto3" json:"swimmerId,omitempty"`
+}
+
+func (x *UnWatchSwimmerRequest) Reset() {
+	*x = UnWatchSwimmerRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnWatchSwimmerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnWatchSwimmerRequest) ProtoMessage() {}
+
+func (x *UnWatchSwimmerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnWatchSwimmerRequest.ProtoReflect.Descriptor instead.
+func (*UnWatchSwimmerRequest) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *UnWatchSwimmerRequest) GetAccountId() int32 {
+	if x != nil {
+		return x.AccountId
+	}
+	return 0
+}
+
+func (x *UnWatchSwimmerRequest) GetSwimmerId() int32 {
+	if x != nil {
+		return x.SwimmerId
+	}
+	return 0
+}
+
+type UnWatchSwimmerResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UnWatchSwimmerResponse) Reset() {
+	*x = UnWatchSwimmerResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UnWatchSwimmerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnWatchSwimmerResponse) ProtoMessage() {}
+
+func (x *UnWatchSwimmerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnWatchSwimmerResponse.ProtoReflect.Descriptor instead.
+func (*UnWatchSwimmerResponse) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{18}
+}
+
+type GetSwimmerRequest_SwimmerIdentifier struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FirstName string                 `protobuf:"bytes,1,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName  string                 `protobuf:"bytes,2,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Dob       *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=dob,proto3" json:"dob,omitempty"`
+}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) Reset() {
+	*x = GetSwimmerRequest_SwimmerIdentifier{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_database_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSwimmerRequest_SwimmerIdentifier) ProtoMessage() {}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_database_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSwimmerRequest_SwimmerIdentifier.ProtoReflect.Descriptor instead.
+func (*GetSwimmerRequest_SwimmerIdentifier) Descriptor() ([]byte, []int) {
+	return file_proto_database_proto_rawDescGZIP(), []int{13, 0}
+}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
+func (x *GetSwimmerRequest_SwimmerIdentifier) GetDob() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Dob
+	}
+	return nil
+}
+
 var File_proto_database_proto protoreflect.FileDescriptor
 
 var file_proto_database_proto_rawDesc = []byte{
@@ -454,19 +1299,138 @@ var file_proto_database_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a, 0x07, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65,
 	0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x07, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e,
-	0x74, 0x32, 0xa9, 0x01, 0x0a, 0x08, 0x44, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x12, 0x52,
-	0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12,
-	0x1e, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x1f, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x12, 0x49, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
-	0x12, 0x1b, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x41,
-	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e,
-	0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x63, 0x6f,
-	0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x12, 0x5a,
-	0x10, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x3b, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73,
-	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x22, 0x60, 0x0a, 0x15, 0x41, 0x64, 0x64, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x12, 0x37, 0x0a, 0x0b, 0x70, 0x68,
+	0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x15, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x50, 0x68, 0x6f, 0x6e, 0x65,
+	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x22, 0x18, 0x0a, 0x16, 0x41, 0x64, 0x64, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e,
+	0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4c, 0x0a,
+	0x18, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x68, 0x6f,
+	0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
+	0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x1b, 0x0a, 0x19, 0x52,
+	0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xed, 0x03, 0x0a, 0x07, 0x53, 0x77, 0x69,
+	0x6d, 0x6d, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x02, 0x69, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49,
+	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0x49, 0x64, 0x12, 0x2c, 0x0a, 0x03, 0x64, 0x6f, 0x62, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x03, 0x64, 0x6f, 0x62,
+	0x12, 0x3a, 0x0a, 0x0a, 0x64, 0x61, 0x74, 0x65, 0x4a, 0x6f, 0x69, 0x6e, 0x65, 0x64, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x52, 0x0a, 0x64, 0x61, 0x74, 0x65, 0x4a, 0x6f, 0x69, 0x6e, 0x65, 0x64, 0x12, 0x1c, 0x0a, 0x09,
+	0x66, 0x69, 0x72, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x24, 0x0a, 0x0d, 0x6d, 0x69,
+	0x64, 0x64, 0x6c, 0x65, 0x49, 0x6e, 0x69, 0x74, 0x69, 0x61, 0x6c, 0x18, 0x06, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0d, 0x6d, 0x69, 0x64, 0x64, 0x6c, 0x65, 0x49, 0x6e, 0x69, 0x74, 0x69, 0x61, 0x6c,
+	0x12, 0x1a, 0x0a, 0x08, 0x6c, 0x61, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x07, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x6c, 0x61, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x24, 0x0a, 0x0d,
+	0x70, 0x72, 0x65, 0x66, 0x65, 0x72, 0x72, 0x65, 0x64, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x08, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x70, 0x72, 0x65, 0x66, 0x65, 0x72, 0x72, 0x65, 0x64, 0x4e, 0x61,
+	0x6d, 0x65, 0x12, 0x27, 0x0a, 0x03, 0x73, 0x65, 0x78, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x15, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x53, 0x77, 0x69, 0x6d, 0x6d,
+	0x65, 0x72, 0x2e, 0x53, 0x65, 0x78, 0x52, 0x03, 0x73, 0x65, 0x78, 0x12, 0x28, 0x0a, 0x0f, 0x73,
+	0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x0a,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x49,
+	0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x72, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x49,
+	0x64, 0x12, 0x2d, 0x0a, 0x08, 0x77, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x73, 0x18, 0x0c, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x41,
+	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x08, 0x77, 0x61, 0x74, 0x63, 0x68, 0x65, 0x72, 0x73,
+	0x22, 0x26, 0x0a, 0x03, 0x53, 0x65, 0x78, 0x12, 0x08, 0x0a, 0x04, 0x4d, 0x41, 0x4c, 0x45, 0x10,
+	0x00, 0x12, 0x0a, 0x0a, 0x06, 0x46, 0x45, 0x4d, 0x41, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x09, 0x0a,
+	0x05, 0x4f, 0x54, 0x48, 0x45, 0x52, 0x10, 0x02, 0x22, 0x43, 0x0a, 0x14, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x2b, 0x0a, 0x07, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x11, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x53, 0x77, 0x69,
+	0x6d, 0x6d, 0x65, 0x72, 0x52, 0x07, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x22, 0x17, 0x0a,
+	0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa1, 0x02, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x53, 0x77,
+	0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x48, 0x00, 0x52, 0x02, 0x69, 0x64, 0x12, 0x2a,
+	0x0a, 0x0f, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x77, 0x69, 0x6d, 0x6d,
+	0x65, 0x72, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x43, 0x0a, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62,
+	0x61, 0x73, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x66, 0x69, 0x65, 0x72, 0x48, 0x00, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x1a,
+	0x7b, 0x0a, 0x11, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x66, 0x69, 0x65, 0x72, 0x12, 0x1c, 0x0a, 0x09, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4e, 0x61, 0x6d,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4e, 0x61,
+	0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x6c, 0x61, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6c, 0x61, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x2c,
+	0x0a, 0x03, 0x64, 0x6f, 0x62, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69,
+	0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x03, 0x64, 0x6f, 0x62, 0x42, 0x0c, 0x0a, 0x0a,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x66, 0x69, 0x65, 0x72, 0x22, 0x41, 0x0a, 0x12, 0x47, 0x65,
+	0x74, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x2b, 0x0a, 0x07, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x11, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x53, 0x77, 0x69,
+	0x6d, 0x6d, 0x65, 0x72, 0x52, 0x07, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x22, 0x51, 0x0a,
+	0x13, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64,
+	0x22, 0x16, 0x0a, 0x14, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x53, 0x0a, 0x15, 0x55, 0x6e, 0x57, 0x61,
+	0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x12,
+	0x1c, 0x0a, 0x09, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x09, 0x73, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x49, 0x64, 0x22, 0x18, 0x0a,
+	0x16, 0x55, 0x6e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xa7, 0x05, 0x0a, 0x08, 0x44, 0x61, 0x74, 0x61,
+	0x62, 0x61, 0x73, 0x65, 0x12, 0x52, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63,
+	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1e, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x49, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x41,
+	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1b, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x47,
+	0x65, 0x74, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0x55, 0x0a, 0x0e, 0x41, 0x64, 0x64, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e,
+	0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x1f, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x41, 0x64, 0x64, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x41, 0x64, 0x64, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x5e, 0x0a, 0x11, 0x52, 0x65,
+	0x6d, 0x6f, 0x76, 0x65, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12,
+	0x22, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76,
+	0x65, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x52,
+	0x65, 0x6d, 0x6f, 0x76, 0x65, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x52, 0x0a, 0x0d, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x12, 0x1e, 0x2e, 0x64, 0x61,
+	0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x77, 0x69,
+	0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x64, 0x61,
+	0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x77, 0x69,
+	0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x49,
+	0x0a, 0x0a, 0x47, 0x65, 0x74, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x12, 0x1b, 0x2e, 0x64,
+	0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x77, 0x69, 0x6d, 0x6d,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x64, 0x61, 0x74, 0x61,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0c, 0x57, 0x61, 0x74,
+	0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x12, 0x1d, 0x2e, 0x64, 0x61, 0x74, 0x61,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62,
+	0x61, 0x73, 0x65, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x55, 0x0a, 0x0e, 0x55, 0x6e,
+	0x57, 0x61, 0x74, 0x63, 0x68, 0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x12, 0x1f, 0x2e, 0x64,
+	0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x55, 0x6e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x53,
+	0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e,
+	0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x55, 0x6e, 0x57, 0x61, 0x74, 0x63, 0x68,
+	0x53, 0x77, 0x69, 0x6d, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0x12, 0x5a, 0x10, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x3b, 0x64, 0x61, 0x74,
+	0x61, 0x62, 0x61, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -481,30 +1445,67 @@ func file_proto_database_proto_rawDescGZIP() []byte {
 	return file_proto_database_proto_rawDescData
 }
 
-var file_proto_database_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_database_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_database_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_proto_database_proto_goTypes = []interface{}{
-	(*CreateAccountRequest)(nil),  // 0: database.CreateAccountRequest
-	(*CreateAccountResponse)(nil), // 1: database.CreateAccountResponse
-	(*Account)(nil),               // 2: database.Account
-	(*PhoneNumber)(nil),           // 3: database.PhoneNumber
-	(*GetAccountRequest)(nil),     // 4: database.GetAccountRequest
-	(*GetAccountResponse)(nil),    // 5: database.GetAccountResponse
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(Swimmer_Sex)(0),                            // 0: database.Swimmer.Sex
+	(*CreateAccountRequest)(nil),                // 1: database.CreateAccountRequest
+	(*CreateAccountResponse)(nil),               // 2: database.CreateAccountResponse
+	(*Account)(nil),                             // 3: database.Account
+	(*PhoneNumber)(nil),                         // 4: database.PhoneNumber
+	(*GetAccountRequest)(nil),                   // 5: database.GetAccountRequest
+	(*GetAccountResponse)(nil),                  // 6: database.GetAccountResponse
+	(*AddPhoneNumberRequest)(nil),               // 7: database.AddPhoneNumberRequest
+	(*AddPhoneNumberResponse)(nil),              // 8: database.AddPhoneNumberResponse
+	(*RemovePhoneNumberRequest)(nil),            // 9: database.RemovePhoneNumberRequest
+	(*RemovePhoneNumberResponse)(nil),           // 10: database.RemovePhoneNumberResponse
+	(*Swimmer)(nil),                             // 11: database.Swimmer
+	(*CreateSwimmerRequest)(nil),                // 12: database.CreateSwimmerRequest
+	(*CreateSwimmerResponse)(nil),               // 13: database.CreateSwimmerResponse
+	(*GetSwimmerRequest)(nil),                   // 14: database.GetSwimmerRequest
+	(*GetSwimmerResponse)(nil),                  // 15: database.GetSwimmerResponse
+	(*WatchSwimmerRequest)(nil),                 // 16: database.WatchSwimmerRequest
+	(*WatchSwimmerResponse)(nil),                // 17: database.WatchSwimmerResponse
+	(*UnWatchSwimmerRequest)(nil),               // 18: database.UnWatchSwimmerRequest
+	(*UnWatchSwimmerResponse)(nil),              // 19: database.UnWatchSwimmerResponse
+	(*GetSwimmerRequest_SwimmerIdentifier)(nil), // 20: database.GetSwimmerRequest.SwimmerIdentifier
+	(*timestamppb.Timestamp)(nil),               // 21: google.protobuf.Timestamp
 }
 var file_proto_database_proto_depIdxs = []int32{
-	6, // 0: database.CreateAccountRequest.joinDate:type_name -> google.protobuf.Timestamp
-	6, // 1: database.Account.joinDate:type_name -> google.protobuf.Timestamp
-	3, // 2: database.Account.phoneNumbers:type_name -> database.PhoneNumber
-	2, // 3: database.GetAccountResponse.account:type_name -> database.Account
-	0, // 4: database.Database.CreateAccount:input_type -> database.CreateAccountRequest
-	4, // 5: database.Database.GetAccount:input_type -> database.GetAccountRequest
-	1, // 6: database.Database.CreateAccount:output_type -> database.CreateAccountResponse
-	5, // 7: database.Database.GetAccount:output_type -> database.GetAccountResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	21, // 0: database.CreateAccountRequest.joinDate:type_name -> google.protobuf.Timestamp
+	21, // 1: database.Account.joinDate:type_name -> google.protobuf.Timestamp
+	4,  // 2: database.Account.phoneNumbers:type_name -> database.PhoneNumber
+	3,  // 3: database.GetAccountResponse.account:type_name -> database.Account
+	4,  // 4: database.AddPhoneNumberRequest.phoneNumber:type_name -> database.PhoneNumber
+	21, // 5: database.Swimmer.dob:type_name -> google.protobuf.Timestamp
+	21, // 6: database.Swimmer.dateJoined:type_name -> google.protobuf.Timestamp
+	0,  // 7: database.Swimmer.sex:type_name -> database.Swimmer.Sex
+	3,  // 8: database.Swimmer.watchers:type_name -> database.Account
+	11, // 9: database.CreateSwimmerRequest.swimmer:type_name -> database.Swimmer
+	20, // 10: database.GetSwimmerRequest.name:type_name -> database.GetSwimmerRequest.SwimmerIdentifier
+	11, // 11: database.GetSwimmerResponse.swimmer:type_name -> database.Swimmer
+	21, // 12: database.GetSwimmerRequest.SwimmerIdentifier.dob:type_name -> google.protobuf.Timestamp
+	1,  // 13: database.Database.CreateAccount:input_type -> database.CreateAccountRequest
+	5,  // 14: database.Database.GetAccount:input_type -> database.GetAccountRequest
+	7,  // 15: database.Database.AddPhoneNumber:input_type -> database.AddPhoneNumberRequest
+	9,  // 16: database.Database.RemovePhoneNumber:input_type -> database.RemovePhoneNumberRequest
+	12, // 17: database.Database.CreateSwimmer:input_type -> database.CreateSwimmerRequest
+	14, // 18: database.Database.GetSwimmer:input_type -> database.GetSwimmerRequest
+	16, // 19: database.Database.WatchSwimmer:input_type -> database.WatchSwimmerRequest
+	18, // 20: database.Database.UnWatchSwimmer:input_type -> database.UnWatchSwimmerRequest
+	2,  // 21: database.Database.CreateAccount:output_type -> database.CreateAccountResponse
+	6,  // 22: database.Database.GetAccount:output_type -> database.GetAccountResponse
+	8,  // 23: database.Database.AddPhoneNumber:output_type -> database.AddPhoneNumberResponse
+	10, // 24: database.Database.RemovePhoneNumber:output_type -> database.RemovePhoneNumberResponse
+	13, // 25: database.Database.CreateSwimmer:output_type -> database.CreateSwimmerResponse
+	15, // 26: database.Database.GetSwimmer:output_type -> database.GetSwimmerResponse
+	17, // 27: database.Database.WatchSwimmer:output_type -> database.WatchSwimmerResponse
+	19, // 28: database.Database.UnWatchSwimmer:output_type -> database.UnWatchSwimmerResponse
+	21, // [21:29] is the sub-list for method output_type
+	13, // [13:21] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_proto_database_proto_init() }
@@ -585,23 +1586,197 @@ func file_proto_database_proto_init() {
 				return nil
 			}
 		}
+		file_proto_database_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddPhoneNumberRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddPhoneNumberResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemovePhoneNumberRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RemovePhoneNumberResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Swimmer); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateSwimmerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateSwimmerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSwimmerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSwimmerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WatchSwimmerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WatchSwimmerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnWatchSwimmerRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnWatchSwimmerResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_database_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSwimmerRequest_SwimmerIdentifier); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_proto_database_proto_msgTypes[4].OneofWrappers = []interface{}{
 		(*GetAccountRequest_Id)(nil),
 		(*GetAccountRequest_Email)(nil),
+	}
+	file_proto_database_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*GetSwimmerRequest_Id)(nil),
+		(*GetSwimmerRequest_SwimmerIdentity)(nil),
+		(*GetSwimmerRequest_Name)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_database_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   6,
+			NumEnums:      1,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_database_proto_goTypes,
 		DependencyIndexes: file_proto_database_proto_depIdxs,
+		EnumInfos:         file_proto_database_proto_enumTypes,
 		MessageInfos:      file_proto_database_proto_msgTypes,
 	}.Build()
 	File_proto_database_proto = out.File

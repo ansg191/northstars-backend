@@ -3,47 +3,43 @@ package utils
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/micro/micro/v3/service/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Account struct {
-	ID           int32  `gorm:"primaryKey"`
-	Email        string `gorm:"uniqueIndex"`
-	FirstName    string
-	LastName     string
-	JoinDate     time.Time
-	PhoneNumbers []PhoneNumber
+	ID              int32  `gorm:"primaryKey"`
+	Email           string `gorm:"uniqueIndex"`
+	FirstName       string
+	LastName        string
+	JoinDate        time.Time `gorm:"type:date"`
+	PhoneNumbers    []PhoneNumber
+	WatchedSwimmers []Swimmer `gorm:"many2many:watches"`
 }
 
 type PhoneNumber struct {
+	gorm.Model
 	Number     string
 	SmsEnabled bool
 	AccountID  int32
-	Account    Account
 }
 
 type Swimmer struct {
-	gorm.Model
+	ID              int32 `gorm:"primaryKey"`
 	AccountID       int32
-	DOB             time.Time `gorn:"not null"`
-	DateJoined      time.Time `gorn:"not null"`
-	FirstName       string    `gorn:"not null"`
-	MiddleInitial   string
+	DOB             time.Time `gorm:"type:date"`
+	DateJoined      time.Time `gorm:"type:date"`
+	FirstName       string
+	MiddleInitial   *string
 	LastName        string
-	PreferredName   string
+	PreferredName   *string
 	Sex             string
-	SwimmerIdentity string `gorn:"uniqueIndex"`
-	RosterID        uint
-}
-
-type Watches struct {
-	AccountID int32
-	Account   Account
-	SwimmerID uint
-	Swimmer   Swimmer
+	SwimmerIdentity string `gorm:"uniqueIndex"`
+	RosterID        int32
+	Watchers        []Account `gorm:"many2many:watches"`
 }
 
 func GetDSN() (string, error) {
@@ -80,7 +76,6 @@ func LoadDB() (*gorm.DB, error) {
 	db.AutoMigrate(&Account{})
 	db.AutoMigrate(&PhoneNumber{})
 	db.AutoMigrate(&Swimmer{})
-	db.AutoMigrate(&Watches{})
 
 	return db, nil
 }
