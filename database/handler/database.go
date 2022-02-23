@@ -174,9 +174,19 @@ func (e *Database) CreateSwimmer(ctx context.Context, req *database.CreateSwimme
 
 func (e *Database) WatchSwimmer(ctx context.Context, req *database.WatchSwimmerRequest, _ *database.WatchSwimmerResponse) error {
 	account := utils.Account{ID: req.AccountId}
-	swimmer := utils.Swimmer{ID: req.SwimmerId}
+	var swimmer utils.Swimmer
 
 	err := e.DB.WithContext(ctx).
+		First(&swimmer, req.SwimmerId).
+		Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return microErr.NotFound("database.WatchSwimmer", "Swimmer %d not found", req.SwimmerId)
+		}
+		return err
+	}
+
+	err = e.DB.WithContext(ctx).
 		Model(&account).
 		Association("WatchedSwimmers").
 		Append(&swimmer)

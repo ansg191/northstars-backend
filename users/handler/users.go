@@ -4,14 +4,13 @@ import (
 	"context"
 	"fmt"
 	database "github.com/ansg191/northstars-backend/database/proto"
+	"github.com/micro/micro/v3/service/client"
 	"strconv"
 
 	authProto "github.com/micro/micro/v3/proto/auth"
 	"github.com/micro/micro/v3/service/auth"
 	"github.com/micro/micro/v3/service/errors"
 	log "github.com/micro/micro/v3/service/logger"
-	"github.com/micro/micro/v3/service/store"
-	"github.com/micro/micro/v3/service/store/client"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	cookiestealer "github.com/ansg191/northstars-backend/cookie-stealer/proto"
@@ -117,7 +116,7 @@ func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *use
 		FirstName: rsp.FirstName,
 		LastName:  rsp.LastName,
 		JoinDate:  rsp.JoinedDate,
-	})
+	}, client.WithAuthToken())
 	if err != nil {
 		return err
 	}
@@ -191,44 +190,32 @@ func (e *Users) WatchSwimmer(ctx context.Context, req *users.WatchSwimmerRequest
 		return errors.Unauthorized("users.WatchSwimmer", "Unauthorized")
 	}
 
-	watchStore := client.NewStore(
-		store.WithContext(ctx),
-		store.Table("watch-table"),
-	)
-
-	oldRecord, err := store.Read(account.ID)
-	if err.Error() == "not found" {
-	} else if err != nil {
-		return err
+	if req.Id == 0 {
+		return errors.BadRequest("users.WatchSwimmer", "Swimmer id not provided")
 	}
 
-	var watchedSwimmers []int
-	if len(oldRecord) > 0 {
-		err = oldRecord[0].Decode(&watchedSwimmers)
-		if err != nil {
-			return err
-		}
-	}
-
-	for _, swimmer := range watchedSwimmers {
-		if swimmer == int(req.Id) {
-			for _, swimmer2 := range watchedSwimmers {
-				rsp.SwimmerIds = append(rsp.SwimmerIds, int32(swimmer2))
-			}
-			return nil
-		}
-	}
-
-	watchedSwimmers = append(watchedSwimmers, int(req.Id))
-
-	newRecord := store.NewRecord(account.ID, watchedSwimmers)
-	err = watchStore.Write(newRecord)
+	accountId, err := strconv.Atoi(account.Metadata["tuId"])
 	if err != nil {
 		return err
 	}
 
-	for _, swimmer := range watchedSwimmers {
-		rsp.SwimmerIds = append(rsp.SwimmerIds, int32(swimmer))
+	_, err = e.DB.WatchSwimmer(ctx, &database.WatchSwimmerRequest{
+		AccountId: int32(accountId),
+		SwimmerId: req.Id,
+	})
+	if err != nil {
+		return err
+	}
+
+	dbAccount, err := e.DB.GetAccount(ctx, &database.GetAccountRequest{
+		Identifier: &database.GetAccountRequest_Id{Id: int32(accountId)},
+	})
+	if err != nil {
+		return err
+	}
+
+	for _, watch := range dbAccount.Account.Watches {
+		rsp.SwimmerIds = append(rsp.SwimmerIds, watch.Id)
 	}
 
 	return nil

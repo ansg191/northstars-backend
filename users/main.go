@@ -5,7 +5,6 @@ import (
 	database "github.com/ansg191/northstars-backend/database/proto"
 	"github.com/ansg191/northstars-backend/users/handler"
 	pb "github.com/ansg191/northstars-backend/users/proto"
-
 	"github.com/micro/micro/v3/proto/auth"
 	"github.com/micro/micro/v3/service"
 	"github.com/micro/micro/v3/service/logger"

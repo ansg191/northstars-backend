@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"github.com/micro/micro/v3/service/client"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -439,7 +440,7 @@ func ConvertTeamUnifyDate(date string) (time.Time, error) {
 }
 
 func GetCookies(ctx context.Context, service cookiestealer.CookieStealerService) (string, error) {
-	cookieRes, err := service.StealTeamUnifyCookies(ctx, &cookiestealer.StealTeamUnifyCookiesRequest{})
+	cookieRes, err := service.StealTeamUnifyCookies(ctx, &cookiestealer.StealTeamUnifyCookiesRequest{}, client.WithAuthToken())
 	if err != nil {
 		return "", err
 	}
@@ -452,8 +453,8 @@ func GetCookies(ctx context.Context, service cookiestealer.CookieStealerService)
 func sendTeamUnifyRequest(r *http.Request, cookies string) (*http.Response, error) {
 	r.Header.Set("Cookie", cookies)
 
-	client := http.Client{}
-	response, err := client.Do(r)
+	httpClient := http.Client{}
+	response, err := httpClient.Do(r)
 	if err != nil {
 		return nil, err
 	}
