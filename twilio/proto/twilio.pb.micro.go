@@ -45,6 +45,8 @@ func NewTwilioEndpoints() []*api.Endpoint {
 type TwilioService interface {
 	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...client.CallOption) (*SendMessageResponse, error)
 	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...client.CallOption) (*GetMessageResponse, error)
+	Verify(ctx context.Context, in *VerifyRequest, opts ...client.CallOption) (*VerifyResponse, error)
+	CheckVerify(ctx context.Context, in *CheckVerifyRequest, opts ...client.CallOption) (*CheckVerifyResponse, error)
 }
 
 type twilioService struct {
@@ -79,17 +81,41 @@ func (c *twilioService) GetMessage(ctx context.Context, in *GetMessageRequest, o
 	return out, nil
 }
 
+func (c *twilioService) Verify(ctx context.Context, in *VerifyRequest, opts ...client.CallOption) (*VerifyResponse, error) {
+	req := c.c.NewRequest(c.name, "Twilio.Verify", in)
+	out := new(VerifyResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *twilioService) CheckVerify(ctx context.Context, in *CheckVerifyRequest, opts ...client.CallOption) (*CheckVerifyResponse, error) {
+	req := c.c.NewRequest(c.name, "Twilio.CheckVerify", in)
+	out := new(CheckVerifyResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Twilio service
 
 type TwilioHandler interface {
 	SendMessage(context.Context, *SendMessageRequest, *SendMessageResponse) error
 	GetMessage(context.Context, *GetMessageRequest, *GetMessageResponse) error
+	Verify(context.Context, *VerifyRequest, *VerifyResponse) error
+	CheckVerify(context.Context, *CheckVerifyRequest, *CheckVerifyResponse) error
 }
 
 func RegisterTwilioHandler(s server.Server, hdlr TwilioHandler, opts ...server.HandlerOption) error {
 	type twilio interface {
 		SendMessage(ctx context.Context, in *SendMessageRequest, out *SendMessageResponse) error
 		GetMessage(ctx context.Context, in *GetMessageRequest, out *GetMessageResponse) error
+		Verify(ctx context.Context, in *VerifyRequest, out *VerifyResponse) error
+		CheckVerify(ctx context.Context, in *CheckVerifyRequest, out *CheckVerifyResponse) error
 	}
 	type Twilio struct {
 		twilio
@@ -108,4 +134,12 @@ func (h *twilioHandler) SendMessage(ctx context.Context, in *SendMessageRequest,
 
 func (h *twilioHandler) GetMessage(ctx context.Context, in *GetMessageRequest, out *GetMessageResponse) error {
 	return h.TwilioHandler.GetMessage(ctx, in, out)
+}
+
+func (h *twilioHandler) Verify(ctx context.Context, in *VerifyRequest, out *VerifyResponse) error {
+	return h.TwilioHandler.Verify(ctx, in, out)
+}
+
+func (h *twilioHandler) CheckVerify(ctx context.Context, in *CheckVerifyRequest, out *CheckVerifyResponse) error {
+	return h.TwilioHandler.CheckVerify(ctx, in, out)
 }

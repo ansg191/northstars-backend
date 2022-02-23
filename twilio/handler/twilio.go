@@ -2,9 +2,12 @@ package handler
 
 import (
 	"context"
+	"github.com/gotidy/ptr"
 	"github.com/micro/micro/v3/service/config"
+	"github.com/micro/micro/v3/service/errors"
 	"github.com/twilio/twilio-go"
 	openapi "github.com/twilio/twilio-go/rest/api/v2010"
+	verify "github.com/twilio/twilio-go/rest/verify/v2"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 
@@ -82,10 +85,74 @@ func (e *Twilio) GetMessage(ctx context.Context, req *pb.GetMessageRequest, rsp 
 	return nil
 }
 
+func (e *Twilio) Verify(_ context.Context, req *pb.VerifyRequest, rsp *pb.VerifyResponse) error {
+	if number, ok := req.Destination.(*pb.VerifyRequest_Number); ok {
+		opts, err := GetTwilioOpts()
+		if err != nil {
+			return err
+		}
+
+		client := twilio.NewRestClientWithParams(twilio.RestClientParams{
+			Username: opts.sid,
+			Password: opts.token,
+		})
+
+		verification, err := client.VerifyV2.CreateVerification(opts.verifySid, &verify.CreateVerificationParams{
+			Channel: ptr.String("sms"),
+			To:      ptr.String(number.Number),
+		})
+		if err != nil {
+			return err
+		}
+
+		rsp.Sid = ptr.ToString(verification.Sid)
+
+		return nil
+	} else if _, ok = req.Destination.(*pb.VerifyRequest_Email); ok {
+		return errors.NotImplemented("twilio.Verify", "Email not implemented yet")
+	} else {
+		return errors.BadRequest("twilio.Verify", "No destination provided")
+	}
+}
+
+func (e *Twilio) CheckVerify(_ context.Context, req *pb.CheckVerifyRequest, rsp *pb.CheckVerifyResponse) error {
+	opts, err := GetTwilioOpts()
+	if err != nil {
+		return err
+	}
+
+	client := twilio.NewRestClientWithParams(twilio.RestClientParams{
+		Username: opts.sid,
+		Password: opts.token,
+	})
+
+	check, err := client.VerifyV2.CreateVerificationCheck(opts.verifySid, &verify.CreateVerificationCheckParams{
+		VerificationSid: ptr.String(req.Sid),
+		Code:            ptr.String(req.Code),
+	})
+	if err != nil {
+		return err
+	}
+
+	switch ptr.ToString(check.Status) {
+	case "pending":
+		rsp.Status = pb.CheckVerifyResponse_PENDING
+	case "approved":
+		rsp.Status = pb.CheckVerifyResponse_APPROVED
+	case "canceled":
+		rsp.Status = pb.CheckVerifyResponse_CANCELED
+	default:
+		return errors.InternalServerError("twilio.CheckVerify", "Received unknown status %s", ptr.ToString(check.Status))
+	}
+
+	return nil
+}
+
 type TwilioOptions struct {
 	sid           string
 	token         string
 	msgServiceSid string
+	verifySid     string
 }
 
 func GetTwilioOpts() (TwilioOptions, error) {
@@ -99,30 +166,24 @@ func GetTwilioOpts() (TwilioOptions, error) {
 		sid:           twilioConf["sid"],
 		token:         twilioConf["token"],
 		msgServiceSid: twilioConf["msgSid"],
+		verifySid:     twilioConf["verifySid"],
 	}, nil
-}
-
-func ToString(ptr *string) (s string) {
-	if ptr == nil {
-		return s
-	}
-	return *ptr
 }
 
 func TwilioMsgToMessage(resp *openapi.ApiV2010Message) (*pb.Message, error) {
 	msg := pb.Message{}
 
-	dateCreated, err := time.Parse(RFC2822, ToString(resp.DateCreated))
+	dateCreated, err := time.Parse(RFC2822, ptr.ToString(resp.DateCreated))
 	if err != nil {
 		return nil, err
 	}
-	dateSent, err := time.Parse(RFC2822, ToString(resp.DateSent))
-	dateUpdated, err := time.Parse(RFC2822, ToString(resp.DateUpdated))
+	dateSent, err := time.Parse(RFC2822, ptr.ToString(resp.DateSent))
+	dateUpdated, err := time.Parse(RFC2822, ptr.ToString(resp.DateUpdated))
 	if err != nil {
 		return nil, err
 	}
 
-	msg.Body = ToString(resp.Body)
+	msg.Body = ptr.ToString(resp.Body)
 	msg.DateCreated = timestamppb.New(dateCreated)
 
 	if dateSent.IsZero() {
@@ -133,15 +194,15 @@ func TwilioMsgToMessage(resp *openapi.ApiV2010Message) (*pb.Message, error) {
 
 	msg.DateUpdated = timestamppb.New(dateUpdated)
 
-	msg.Direction = ToString(resp.Direction)
-	msg.From = ToString(resp.From)
-	msg.NumMedia = ToString(resp.NumMedia)
-	msg.NumSegments = ToString(resp.NumSegments)
-	msg.Price = ToString(resp.Price)
-	msg.PriceUnit = ToString(resp.PriceUnit)
-	msg.Sid = ToString(resp.Sid)
+	msg.Direction = ptr.ToString(resp.Direction)
+	msg.From = ptr.ToString(resp.From)
+	msg.NumMedia = ptr.ToString(resp.NumMedia)
+	msg.NumSegments = ptr.ToString(resp.NumSegments)
+	msg.Price = ptr.ToString(resp.Price)
+	msg.PriceUnit = ptr.ToString(resp.PriceUnit)
+	msg.Sid = ptr.ToString(resp.Sid)
 
-	switch ToString(resp.Status) {
+	switch ptr.ToString(resp.Status) {
 	case "accepted":
 		msg.Status = pb.Message_ACCEPTED
 	case "scheduled":
@@ -168,8 +229,8 @@ func TwilioMsgToMessage(resp *openapi.ApiV2010Message) (*pb.Message, error) {
 		msg.Status = pb.Message_CANCELED
 	}
 
-	msg.To = ToString(resp.To)
-	msg.Uri = ToString(resp.Uri)
+	msg.To = ptr.ToString(resp.To)
+	msg.Uri = ptr.ToString(resp.Uri)
 
 	return &msg, nil
 }

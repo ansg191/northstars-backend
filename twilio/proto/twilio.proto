@@ -7,55 +7,84 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./proto;twilio";
 
 service Twilio {
-	rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
-	rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {}
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+  rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {}
+
+  rpc Verify(VerifyRequest) returns (VerifyResponse) {}
+  rpc CheckVerify(CheckVerifyRequest) returns (CheckVerifyResponse) {}
 }
 
 message Message {
-	string body = 1;
-	google.protobuf.Timestamp dateCreated = 2;
-	google.protobuf.Timestamp dateSent = 3;
-	google.protobuf.Timestamp dateUpdated = 4;
-	string direction = 5;
-	string from = 6;
-	string numMedia = 7;
-	string numSegments = 8;
-	string price = 9;
-	string priceUnit = 10;
-	string sid = 11;
+  string body = 1;
+  google.protobuf.Timestamp dateCreated = 2;
+  google.protobuf.Timestamp dateSent = 3;
+  google.protobuf.Timestamp dateUpdated = 4;
+  string direction = 5;
+  string from = 6;
+  string numMedia = 7;
+  string numSegments = 8;
+  string price = 9;
+  string priceUnit = 10;
+  string sid = 11;
 
-	enum Status {
-		ACCEPTED = 0;
-		SCHEDULED = 1;
-		QUEUED = 2;
-		SENDING = 3;
-		SENT = 4;
-		RECEIVING = 5;
-		RECEIVED = 6;
-		DELIVERED = 7;
-		UNDELIVERED = 8;
-		FAILED = 9;
-		READ = 10;
-		CANCELED = 11;
-	}
-	Status status = 12;
-	string to = 14;
-	string uri = 15;
+  enum Status {
+    ACCEPTED = 0;
+    SCHEDULED = 1;
+    QUEUED = 2;
+    SENDING = 3;
+    SENT = 4;
+    RECEIVING = 5;
+    RECEIVED = 6;
+    DELIVERED = 7;
+    UNDELIVERED = 8;
+    FAILED = 9;
+    READ = 10;
+    CANCELED = 11;
+  }
+  Status status = 12;
+  string to = 14;
+  string uri = 15;
 }
 
 message SendMessageRequest {
-	string to = 1;
-	string body = 2;
+  string to = 1;
+  string body = 2;
 }
 
 message SendMessageResponse {
-	Message msg = 1;
+  Message msg = 1;
 }
 
 message GetMessageRequest {
-	string sid = 1;
+  string sid = 1;
 }
 
 message GetMessageResponse {
-	Message msg = 1;
+  Message msg = 1;
+}
+
+message VerifyRequest {
+  oneof destination {
+    string number = 1;
+    string email = 2;
+  }
+}
+
+message VerifyResponse {
+  string sid = 1;
+}
+
+
+message CheckVerifyRequest {
+  string sid = 1;
+  string code = 2;
+}
+
+message CheckVerifyResponse {
+  enum Status {
+    PENDING = 0;
+    APPROVED = 1;
+    CANCELED = 2;
+  }
+  Status status = 1;
 }

@@ -97,6 +97,55 @@ func (Message_Status) EnumDescriptor() ([]byte, []int) {
 	return file_proto_twilio_proto_rawDescGZIP(), []int{0, 0}
 }
 
+type CheckVerifyResponse_Status int32
+
+const (
+	CheckVerifyResponse_PENDING  CheckVerifyResponse_Status = 0
+	CheckVerifyResponse_APPROVED CheckVerifyResponse_Status = 1
+	CheckVerifyResponse_CANCELED CheckVerifyResponse_Status = 2
+)
+
+// Enum value maps for CheckVerifyResponse_Status.
+var (
+	CheckVerifyResponse_Status_name = map[int32]string{
+		0: "PENDING",
+		1: "APPROVED",
+		2: "CANCELED",
+	}
+	CheckVerifyResponse_Status_value = map[string]int32{
+		"PENDING":  0,
+		"APPROVED": 1,
+		"CANCELED": 2,
+	}
+)
+
+func (x CheckVerifyResponse_Status) Enum() *CheckVerifyResponse_Status {
+	p := new(CheckVerifyResponse_Status)
+	*p = x
+	return p
+}
+
+func (x CheckVerifyResponse_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CheckVerifyResponse_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_twilio_proto_enumTypes[1].Descriptor()
+}
+
+func (CheckVerifyResponse_Status) Type() protoreflect.EnumType {
+	return &file_proto_twilio_proto_enumTypes[1]
+}
+
+func (x CheckVerifyResponse_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CheckVerifyResponse_Status.Descriptor instead.
+func (CheckVerifyResponse_Status) EnumDescriptor() ([]byte, []int) {
+	return file_proto_twilio_proto_rawDescGZIP(), []int{8, 0}
+}
+
 type Message struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -444,6 +493,235 @@ func (x *GetMessageResponse) GetMsg() *Message {
 	return nil
 }
 
+type VerifyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Destination:
+	//	*VerifyRequest_Number
+	//	*VerifyRequest_Email
+	Destination isVerifyRequest_Destination `protobuf_oneof:"destination"`
+}
+
+func (x *VerifyRequest) Reset() {
+	*x = VerifyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_twilio_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VerifyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyRequest) ProtoMessage() {}
+
+func (x *VerifyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_twilio_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyRequest.ProtoReflect.Descriptor instead.
+func (*VerifyRequest) Descriptor() ([]byte, []int) {
+	return file_proto_twilio_proto_rawDescGZIP(), []int{5}
+}
+
+func (m *VerifyRequest) GetDestination() isVerifyRequest_Destination {
+	if m != nil {
+		return m.Destination
+	}
+	return nil
+}
+
+func (x *VerifyRequest) GetNumber() string {
+	if x, ok := x.GetDestination().(*VerifyRequest_Number); ok {
+		return x.Number
+	}
+	return ""
+}
+
+func (x *VerifyRequest) GetEmail() string {
+	if x, ok := x.GetDestination().(*VerifyRequest_Email); ok {
+		return x.Email
+	}
+	return ""
+}
+
+type isVerifyRequest_Destination interface {
+	isVerifyRequest_Destination()
+}
+
+type VerifyRequest_Number struct {
+	Number string `protobuf:"bytes,1,opt,name=number,proto3,oneof"`
+}
+
+type VerifyRequest_Email struct {
+	Email string `protobuf:"bytes,2,opt,name=email,proto3,oneof"`
+}
+
+func (*VerifyRequest_Number) isVerifyRequest_Destination() {}
+
+func (*VerifyRequest_Email) isVerifyRequest_Destination() {}
+
+type VerifyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Sid string `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+}
+
+func (x *VerifyResponse) Reset() {
+	*x = VerifyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_twilio_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *VerifyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyResponse) ProtoMessage() {}
+
+func (x *VerifyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_twilio_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyResponse.ProtoReflect.Descriptor instead.
+func (*VerifyResponse) Descriptor() ([]byte, []int) {
+	return file_proto_twilio_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *VerifyResponse) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+type CheckVerifyRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Sid  string `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	Code string `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+}
+
+func (x *CheckVerifyRequest) Reset() {
+	*x = CheckVerifyRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_twilio_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckVerifyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckVerifyRequest) ProtoMessage() {}
+
+func (x *CheckVerifyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_twilio_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckVerifyRequest.ProtoReflect.Descriptor instead.
+func (*CheckVerifyRequest) Descriptor() ([]byte, []int) {
+	return file_proto_twilio_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CheckVerifyRequest) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+func (x *CheckVerifyRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type CheckVerifyResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status CheckVerifyResponse_Status `protobuf:"varint,1,opt,name=status,proto3,enum=twilio.CheckVerifyResponse_Status" json:"status,omitempty"`
+}
+
+func (x *CheckVerifyResponse) Reset() {
+	*x = CheckVerifyResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_twilio_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckVerifyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckVerifyResponse) ProtoMessage() {}
+
+func (x *CheckVerifyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_twilio_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckVerifyResponse.ProtoReflect.Descriptor instead.
+func (*CheckVerifyResponse) Descriptor() ([]byte, []int) {
+	return file_proto_twilio_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CheckVerifyResponse) GetStatus() CheckVerifyResponse_Status {
+	if x != nil {
+		return x.Status
+	}
+	return CheckVerifyResponse_PENDING
+}
+
 var File_proto_twilio_proto protoreflect.FileDescriptor
 
 var file_proto_twilio_proto_rawDesc = []byte{
@@ -504,18 +782,46 @@ var file_proto_twilio_proto_rawDesc = []byte{
 	0x22, 0x37, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x21, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x32, 0x99, 0x01, 0x0a, 0x06, 0x54, 0x77,
-	0x69, 0x6c, 0x69, 0x6f, 0x12, 0x48, 0x0a, 0x0b, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x12, 0x1a, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x6e,
-	0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x1b, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x45,
-	0x0a, 0x0a, 0x47, 0x65, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x19, 0x2e, 0x74,
-	0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f,
-	0x2e, 0x47, 0x65, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x3b, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x61, 0x67, 0x65, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22, 0x50, 0x0a, 0x0d, 0x56, 0x65, 0x72,
+	0x69, 0x66, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x06, 0x6e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x06, 0x6e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x42, 0x0d, 0x0a, 0x0b,
+	0x64, 0x65, 0x73, 0x74, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x22, 0x0a, 0x0e, 0x56,
+	0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a,
+	0x03, 0x73, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x73, 0x69, 0x64, 0x22,
+	0x3a, 0x0a, 0x12, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x73, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x73, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22, 0x84, 0x01, 0x0a, 0x13,
+	0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0e, 0x32, 0x22, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x43, 0x68, 0x65,
+	0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x22,
+	0x31, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x45, 0x4e,
+	0x44, 0x49, 0x4e, 0x47, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x41, 0x50, 0x50, 0x52, 0x4f, 0x56,
+	0x45, 0x44, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x43, 0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45, 0x44,
+	0x10, 0x02, 0x32, 0x9e, 0x02, 0x0a, 0x06, 0x54, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x12, 0x48, 0x0a,
+	0x0b, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x1a, 0x2e, 0x74,
+	0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69,
+	0x6f, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x45, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x4d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x19, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x47,
+	0x65, 0x74, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x1a, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x39,
+	0x0a, 0x06, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x12, 0x15, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69,
+	0x6f, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x16, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x0b, 0x43, 0x68, 0x65,
+	0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x12, 0x1a, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69,
+	0x6f, 0x2e, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x74, 0x77, 0x69, 0x6c, 0x69, 0x6f, 0x2e, 0x43, 0x68,
+	0x65, 0x63, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x3b, 0x74,
+	0x77, 0x69, 0x6c, 0x69, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -530,33 +836,43 @@ func file_proto_twilio_proto_rawDescGZIP() []byte {
 	return file_proto_twilio_proto_rawDescData
 }
 
-var file_proto_twilio_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_twilio_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_proto_twilio_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_twilio_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_proto_twilio_proto_goTypes = []interface{}{
-	(Message_Status)(0),           // 0: twilio.Message.Status
-	(*Message)(nil),               // 1: twilio.Message
-	(*SendMessageRequest)(nil),    // 2: twilio.SendMessageRequest
-	(*SendMessageResponse)(nil),   // 3: twilio.SendMessageResponse
-	(*GetMessageRequest)(nil),     // 4: twilio.GetMessageRequest
-	(*GetMessageResponse)(nil),    // 5: twilio.GetMessageResponse
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(Message_Status)(0),             // 0: twilio.Message.Status
+	(CheckVerifyResponse_Status)(0), // 1: twilio.CheckVerifyResponse.Status
+	(*Message)(nil),                 // 2: twilio.Message
+	(*SendMessageRequest)(nil),      // 3: twilio.SendMessageRequest
+	(*SendMessageResponse)(nil),     // 4: twilio.SendMessageResponse
+	(*GetMessageRequest)(nil),       // 5: twilio.GetMessageRequest
+	(*GetMessageResponse)(nil),      // 6: twilio.GetMessageResponse
+	(*VerifyRequest)(nil),           // 7: twilio.VerifyRequest
+	(*VerifyResponse)(nil),          // 8: twilio.VerifyResponse
+	(*CheckVerifyRequest)(nil),      // 9: twilio.CheckVerifyRequest
+	(*CheckVerifyResponse)(nil),     // 10: twilio.CheckVerifyResponse
+	(*timestamppb.Timestamp)(nil),   // 11: google.protobuf.Timestamp
 }
 var file_proto_twilio_proto_depIdxs = []int32{
-	6, // 0: twilio.Message.dateCreated:type_name -> google.protobuf.Timestamp
-	6, // 1: twilio.Message.dateSent:type_name -> google.protobuf.Timestamp
-	6, // 2: twilio.Message.dateUpdated:type_name -> google.protobuf.Timestamp
-	0, // 3: twilio.Message.status:type_name -> twilio.Message.Status
-	1, // 4: twilio.SendMessageResponse.msg:type_name -> twilio.Message
-	1, // 5: twilio.GetMessageResponse.msg:type_name -> twilio.Message
-	2, // 6: twilio.Twilio.SendMessage:input_type -> twilio.SendMessageRequest
-	4, // 7: twilio.Twilio.GetMessage:input_type -> twilio.GetMessageRequest
-	3, // 8: twilio.Twilio.SendMessage:output_type -> twilio.SendMessageResponse
-	5, // 9: twilio.Twilio.GetMessage:output_type -> twilio.GetMessageResponse
-	8, // [8:10] is the sub-list for method output_type
-	6, // [6:8] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	11, // 0: twilio.Message.dateCreated:type_name -> google.protobuf.Timestamp
+	11, // 1: twilio.Message.dateSent:type_name -> google.protobuf.Timestamp
+	11, // 2: twilio.Message.dateUpdated:type_name -> google.protobuf.Timestamp
+	0,  // 3: twilio.Message.status:type_name -> twilio.Message.Status
+	2,  // 4: twilio.SendMessageResponse.msg:type_name -> twilio.Message
+	2,  // 5: twilio.GetMessageResponse.msg:type_name -> twilio.Message
+	1,  // 6: twilio.CheckVerifyResponse.status:type_name -> twilio.CheckVerifyResponse.Status
+	3,  // 7: twilio.Twilio.SendMessage:input_type -> twilio.SendMessageRequest
+	5,  // 8: twilio.Twilio.GetMessage:input_type -> twilio.GetMessageRequest
+	7,  // 9: twilio.Twilio.Verify:input_type -> twilio.VerifyRequest
+	9,  // 10: twilio.Twilio.CheckVerify:input_type -> twilio.CheckVerifyRequest
+	4,  // 11: twilio.Twilio.SendMessage:output_type -> twilio.SendMessageResponse
+	6,  // 12: twilio.Twilio.GetMessage:output_type -> twilio.GetMessageResponse
+	8,  // 13: twilio.Twilio.Verify:output_type -> twilio.VerifyResponse
+	10, // 14: twilio.Twilio.CheckVerify:output_type -> twilio.CheckVerifyResponse
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_twilio_proto_init() }
@@ -625,14 +941,66 @@ func file_proto_twilio_proto_init() {
 				return nil
 			}
 		}
+		file_proto_twilio_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VerifyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_twilio_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VerifyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_twilio_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckVerifyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_twilio_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckVerifyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_proto_twilio_proto_msgTypes[5].OneofWrappers = []interface{}{
+		(*VerifyRequest_Number)(nil),
+		(*VerifyRequest_Email)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_twilio_proto_rawDesc,
-			NumEnums:      1,
-			NumMessages:   5,
+			NumEnums:      2,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
