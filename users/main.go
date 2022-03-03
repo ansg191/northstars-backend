@@ -3,6 +3,7 @@ package main
 import (
 	cookiestealer "github.com/ansg191/northstars-backend/cookie-stealer/proto"
 	database "github.com/ansg191/northstars-backend/database/proto"
+	twilio "github.com/ansg191/northstars-backend/twilio/proto"
 	"github.com/ansg191/northstars-backend/users/handler"
 	pb "github.com/ansg191/northstars-backend/users/proto"
 	"github.com/micro/micro/v3/proto/auth"
@@ -21,6 +22,7 @@ func main() {
 	userHandler.Cookies = cookiestealer.NewCookieStealerService("cookie-stealer", srv.Client())
 	userHandler.Accounts = auth.NewAccountsService("auth", srv.Client())
 	userHandler.DB = database.NewDatabaseService("database", srv.Client())
+	userHandler.Twilio = twilio.NewTwilioService("twilio", srv.Client())
 
 	// Register handler
 	pb.RegisterUsersHandler(srv.Server(), userHandler)

@@ -10,10 +10,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/micro/micro/v3/service/errors"
-	"github.com/nyaruka/phonenumbers"
-
 	cookiestealer "github.com/ansg191/northstars-backend/cookie-stealer/proto"
+	"github.com/micro/micro/v3/service/errors"
 )
 
 var (
@@ -412,19 +410,6 @@ type Member struct {
 	ModifiedTimestamp         int64         `json:"modifiedTimestamp"`
 }
 
-func ConvertPhoneNumbers(phoneNumberString string) (string, error) {
-	if phoneNumberString == "" {
-		return "", nil
-	}
-
-	phoneNumber, err := phonenumbers.Parse(phoneNumberString, "US")
-	if err != nil {
-		return "", err
-	}
-
-	return phonenumbers.Format(phoneNumber, phonenumbers.E164), nil
-}
-
 func ConvertTeamUnifyDate(date string) (time.Time, error) {
 	subMatches := dateRegex.FindStringSubmatch(date)
 	if subMatches == nil {
@@ -624,4 +609,36 @@ func GetMembers(ctx context.Context, cookies string, id int) ([]Member, error) {
 	}
 
 	return members, nil
+}
+
+func CollectPhoneNumbers(account *FullAccount) []string {
+	var phoneNumbers []string
+
+	phoneNumbers = append(phoneNumbers, account.Sms1)
+	phoneNumbers = append(phoneNumbers, account.Sms2)
+	phoneNumbers = append(phoneNumbers, account.HomePhone)
+	phoneNumbers = append(phoneNumbers, account.WorkPhone)
+	phoneNumbers = append(phoneNumbers, account.Guard1HomePhone)
+	phoneNumbers = append(phoneNumbers, account.Guard1MedicalPhone)
+	phoneNumbers = append(phoneNumbers, account.Guard1WorkPhone)
+	phoneNumbers = append(phoneNumbers, account.Guard2HomePhone)
+	phoneNumbers = append(phoneNumbers, account.Guard2MedicalPhone)
+	phoneNumbers = append(phoneNumbers, account.Guard2WorkPhone)
+
+	for i, number := range phoneNumbers {
+		if number == "" {
+			continue
+		}
+
+		formattedNumber, err := ConvertPhoneNumbers(number)
+		if err != nil {
+			continue
+		}
+
+		phoneNumbers[i] = formattedNumber
+	}
+
+	phoneNumbers = RemoveEmptyStr(RemoveDuplicatesStr(phoneNumbers))
+
+	return phoneNumbers
 }

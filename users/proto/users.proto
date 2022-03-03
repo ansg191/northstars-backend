@@ -7,9 +7,44 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./proto;users";
 
 service Users {
+  rpc CheckAccount(CheckAccountRequest) returns (CheckAccountResponse) {}
+  rpc VerifyUser(VerifyUserRequest) returns (VerifyUserResponse) {}
+  rpc CheckVerify(CheckVerifyRequest) returns (CheckVerifyResponse) {}
+
   rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
+
   rpc GetSwimmers(GetSwimmersRequest) returns (GetSwimmersResponse) {}
   rpc WatchSwimmer(WatchSwimmerRequest) returns (WatchSwimmerResponse) {}
+}
+
+message CheckAccountRequest {
+  string email = 1;
+}
+
+message CheckAccountResponse {
+  bool found = 1;
+  int32 id = 2;
+  string firstName = 3;
+  string lastName = 4;
+  repeated string phoneNumbers = 5;
+}
+
+message VerifyUserRequest {
+  int32 id = 1;
+  string maskedNumber = 2;
+}
+
+message VerifyUserResponse {
+  string sid = 1;
+}
+
+message CheckVerifyRequest {
+  string sid = 1;
+  string code = 2;
+}
+
+message CheckVerifyResponse {
+  bool status = 1;
 }
 
 message NewUserRequest {

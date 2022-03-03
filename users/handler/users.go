@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	database "github.com/ansg191/northstars-backend/database/proto"
+	twilio "github.com/ansg191/northstars-backend/twilio/proto"
 	"github.com/micro/micro/v3/service/client"
 	"strconv"
 
@@ -22,9 +23,107 @@ type Users struct {
 	Cookies  cookiestealer.CookieStealerService
 	Accounts authProto.AccountsService
 	DB       database.DatabaseService
+	Twilio   twilio.TwilioService
 }
 
-// NewUser is a single request handler called via client.Call or the generated client code
+func (e *Users) CheckAccount(ctx context.Context, req *users.CheckAccountRequest, rsp *users.CheckAccountResponse) error {
+	if req.Email == "" {
+		return errors.BadRequest("users.CheckAccount", "Email not provided")
+	}
+
+	if accountExists, err := utils.CheckAccountExists(ctx, e.DB, req.Email); err != nil {
+		return err
+	} else if accountExists {
+		return errors.Forbidden("users.NewUser", "Account already exists for %s", req.Email)
+	}
+
+	cookies, err := utils.GetCookies(ctx, e.Cookies)
+	if err != nil {
+		return err
+	}
+
+	accounts, err := utils.ListAccounts(ctx, cookies)
+	if err != nil {
+		return err
+	}
+
+	var userAccount *utils.Account
+	for _, account := range accounts.Result {
+		if account.Email == req.Email {
+			userAccount = &account
+			break
+		}
+	}
+	if userAccount == nil {
+		rsp.Found = false
+		return nil
+	}
+
+	account, err := utils.GetAccount(ctx, cookies, userAccount.Id)
+	if err != nil {
+		return err
+	}
+
+	rsp.Found = true
+	rsp.Id = int32(account.Id)
+	rsp.FirstName = account.FirstName
+	rsp.LastName = account.LastName
+
+	rsp.PhoneNumbers = utils.CollectPhoneNumbers(account)
+
+	for i, number := range rsp.PhoneNumbers {
+		rsp.PhoneNumbers[i] = utils.MaskPhoneNumbers(number)
+	}
+
+	return nil
+}
+
+func (e *Users) VerifyUser(ctx context.Context, req *users.VerifyUserRequest, rsp *users.VerifyUserResponse) error {
+	cookies, err := utils.GetCookies(ctx, e.Cookies)
+	if err != nil {
+		return err
+	}
+
+	account, err := utils.GetAccount(ctx, cookies, int(req.Id))
+	if err != nil {
+		return err
+	}
+
+	phoneNumbers := utils.CollectPhoneNumbers(account)
+	var phoneNumber string
+	for _, number := range phoneNumbers {
+		maskedNumber := utils.MaskPhoneNumbers(number)
+		if maskedNumber == req.MaskedNumber {
+			phoneNumber = number
+		}
+	}
+
+	response, err := e.Twilio.Verify(ctx, &twilio.VerifyRequest{
+		Destination: &twilio.VerifyRequest_Number{Number: phoneNumber},
+	}, client.WithAuthToken())
+	if err != nil {
+		return err
+	}
+
+	rsp.Sid = response.Sid
+
+	return nil
+}
+
+func (e *Users) CheckVerify(ctx context.Context, req *users.CheckVerifyRequest, rsp *users.CheckVerifyResponse) error {
+	response, err := e.Twilio.CheckVerify(ctx, &twilio.CheckVerifyRequest{
+		Sid:  req.Sid,
+		Code: req.Code,
+	}, client.WithAuthToken())
+	if err != nil {
+		return err
+	}
+
+	rsp.Status = response.Status == twilio.CheckVerifyResponse_APPROVED
+
+	return nil
+}
+
 func (e *Users) NewUser(ctx context.Context, req *users.NewUserRequest, rsp *users.NewUserResponse) error {
 	log.Info("Received Users.NewUser request")
 

@@ -43,6 +43,9 @@ func NewUsersEndpoints() []*api.Endpoint {
 // Client API for Users service
 
 type UsersService interface {
+	CheckAccount(ctx context.Context, in *CheckAccountRequest, opts ...client.CallOption) (*CheckAccountResponse, error)
+	VerifyUser(ctx context.Context, in *VerifyUserRequest, opts ...client.CallOption) (*VerifyUserResponse, error)
+	CheckVerify(ctx context.Context, in *CheckVerifyRequest, opts ...client.CallOption) (*CheckVerifyResponse, error)
 	NewUser(ctx context.Context, in *NewUserRequest, opts ...client.CallOption) (*NewUserResponse, error)
 	GetSwimmers(ctx context.Context, in *GetSwimmersRequest, opts ...client.CallOption) (*GetSwimmersResponse, error)
 	WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, opts ...client.CallOption) (*WatchSwimmerResponse, error)
@@ -58,6 +61,36 @@ func NewUsersService(name string, c client.Client) UsersService {
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *usersService) CheckAccount(ctx context.Context, in *CheckAccountRequest, opts ...client.CallOption) (*CheckAccountResponse, error) {
+	req := c.c.NewRequest(c.name, "Users.CheckAccount", in)
+	out := new(CheckAccountResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersService) VerifyUser(ctx context.Context, in *VerifyUserRequest, opts ...client.CallOption) (*VerifyUserResponse, error) {
+	req := c.c.NewRequest(c.name, "Users.VerifyUser", in)
+	out := new(VerifyUserResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersService) CheckVerify(ctx context.Context, in *CheckVerifyRequest, opts ...client.CallOption) (*CheckVerifyResponse, error) {
+	req := c.c.NewRequest(c.name, "Users.CheckVerify", in)
+	out := new(CheckVerifyResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *usersService) NewUser(ctx context.Context, in *NewUserRequest, opts ...client.CallOption) (*NewUserResponse, error) {
@@ -93,6 +126,9 @@ func (c *usersService) WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest
 // Server API for Users service
 
 type UsersHandler interface {
+	CheckAccount(context.Context, *CheckAccountRequest, *CheckAccountResponse) error
+	VerifyUser(context.Context, *VerifyUserRequest, *VerifyUserResponse) error
+	CheckVerify(context.Context, *CheckVerifyRequest, *CheckVerifyResponse) error
 	NewUser(context.Context, *NewUserRequest, *NewUserResponse) error
 	GetSwimmers(context.Context, *GetSwimmersRequest, *GetSwimmersResponse) error
 	WatchSwimmer(context.Context, *WatchSwimmerRequest, *WatchSwimmerResponse) error
@@ -100,6 +136,9 @@ type UsersHandler interface {
 
 func RegisterUsersHandler(s server.Server, hdlr UsersHandler, opts ...server.HandlerOption) error {
 	type users interface {
+		CheckAccount(ctx context.Context, in *CheckAccountRequest, out *CheckAccountResponse) error
+		VerifyUser(ctx context.Context, in *VerifyUserRequest, out *VerifyUserResponse) error
+		CheckVerify(ctx context.Context, in *CheckVerifyRequest, out *CheckVerifyResponse) error
 		NewUser(ctx context.Context, in *NewUserRequest, out *NewUserResponse) error
 		GetSwimmers(ctx context.Context, in *GetSwimmersRequest, out *GetSwimmersResponse) error
 		WatchSwimmer(ctx context.Context, in *WatchSwimmerRequest, out *WatchSwimmerResponse) error
@@ -113,6 +152,18 @@ func RegisterUsersHandler(s server.Server, hdlr UsersHandler, opts ...server.Han
 
 type usersHandler struct {
 	UsersHandler
+}
+
+func (h *usersHandler) CheckAccount(ctx context.Context, in *CheckAccountRequest, out *CheckAccountResponse) error {
+	return h.UsersHandler.CheckAccount(ctx, in, out)
+}
+
+func (h *usersHandler) VerifyUser(ctx context.Context, in *VerifyUserRequest, out *VerifyUserResponse) error {
+	return h.UsersHandler.VerifyUser(ctx, in, out)
+}
+
+func (h *usersHandler) CheckVerify(ctx context.Context, in *CheckVerifyRequest, out *CheckVerifyResponse) error {
+	return h.UsersHandler.CheckVerify(ctx, in, out)
 }
 
 func (h *usersHandler) NewUser(ctx context.Context, in *NewUserRequest, out *NewUserResponse) error {
